@@ -76,7 +76,8 @@ public boolean[] getAction()
 {
     // this Agent requires observation integrated in advance.
 
-    if (DangerOfAny() && getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 1)  // a coin
+	System.out.println(isMarioAbleToJump);
+    if (DangerOfAny() && getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 2)  // a coin//1から2に訂正
     {
         if (isMarioAbleToJump || (!isMarioOnGround && action[Mario.KEY_JUMP]))
         {

@@ -1,0 +1,25 @@
+<コマンド>
+vi ファイル名（作成）
+	i (編集モード)　⇔　Ecs(コマンドモード)
+	:w（保存）
+	:q（終了）
+
+platex ~~~~~.tex
+dvipdfmx ~~~~.dvi
+xdg-open ~~~~~.pdf
+
+<箇条書き>
+入れ子の後に改行
+\item[インタフェース]\
+  \begin{enumerate}
+　　…
+見出しの後に改行
+\item[運動の第一法則]\mbox{}\\ 
+\item[static final int MAX\_VERTEX\_NUM]~\\
+
+見出しの中に[]
+\item[[a\textrm{]}] 選択肢１
+
+<特殊文字>
+<> →　$<$ $>$
+_ →　\_

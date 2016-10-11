@@ -45,15 +45,15 @@ public static void main(String[] args)
     final Agent agent = new ForwardJumpingAgent();
     marioAIOptions.setAgent(agent);
     
-    int seed = 99;
+    int seed = 10;
     marioAIOptions.setLevelRandSeed(seed);
     
-    int d = 100;
+    int d = 1;
     marioAIOptions.setLevelDifficulty(d);
  //敵の有無  
-    //marioAIOptions.setEnemies("off");//キラーとパックン
+    marioAIOptions.setEnemies("off");//キラーとパックン
     //marioAIOptions.setEnemies("s");
-    marioAIOptions.setEnemies("ggk");
+    //marioAIOptions.setEnemies("ggk");
     
     marioAIOptions.setDeadEndsCount(true);
     marioAIOptions.setCannonsCount(true);

@@ -1,0 +1,778 @@
+\documentclass[a4j]{jarticle}
+\usepackage{graphicx}
+\usepackage{ascmac}
+
+
+\begin{document}
+
+\title{計算機科学実験及演習2 \\ \bf ソフトウェア報告書1}
+% ↓ここに自分の氏名を記入
+\author{谷　勇輝 \\入学年 平成27年 \\ 学籍番号 1029272870}
+\西暦
+\date{提出日: \today} % コンパイル時の日付が自動で挿入される
+\maketitle
+
+\section{課題1}
+\subsection{アルゴリズムの説明}
+\begin{description}
+\item [1. 始点の距離を0に、それ以外の頂点の距離をINFに初期化する。]
+\item [2. 始点をキューに加える。]
+\item [3. キューが空であれば到達不能、アルゴリズムを終了する。]
+\item [4. 最短距離をもつ頂点Vをキューから取り出す]~\\
+実際のコードではjava.util.PriorityQueueを用いている。このクラスはリストをヒープで管理し、要素の自然順序付けに従い最小の要素を取得できる。
+\item [5. Vが終点ならVの距離が最短距離であり、アルゴリズムを終了する。]
+\item [6. Vが既に最短路確定済みなら3へ戻る。]~\\
+このコードの実装では同一頂点が複数個キューに入ることが起こりうるので、既に探索済みの頂点は破棄する。
+\item [7. 取得した頂点がもつ辺Eを全て取得し、それぞれについて8-9を行う。]
+\item [8. Eで到達できる頂点$V_2$について距離の更新を行う。]~\\
+ 距離が(Vの距離)+(Eの重み)よりも遠ければこの値に更新する。同じか近ければ更新は行わない。
+\item [9. 7で更新が行われた時、$V_2$をキューに追加する。]
+\item [10. Vを最短路確定済みとし、3に戻る。]
+\end{description}
+
+
+\subsection{アルゴリズムの流れ図}
+% 最短経路探索アルゴリズムの流れを示すフローチャート．
+% 次の３行のコメントをはずし，図のファイル名，拡大縮小率を調整する．
+\begin{center}
+  \includegraphics[scale=0.65]{figure01.eps}
+\end{center}
+%また，流れ図等の記法で記述が困難な部分があれば，その箇所を指摘し，その特徴について考察してみよ．余裕があれば，自分なりの記法を考案してアルゴリズムの説明に用いても良い．この場合，考案した記法についての客観的な説明も必ずつけること．
+
+\subsection{実行例}
+
+
+\begin{screen}
+\$ java MyGraphTest \\
+le1 ex12 $≪最短経路の探索≫$\\
+ファイル名を入力してください:test.in\\
+始点の頂点番号を入力してください:0\\
+終点の頂点番号を入力してください:4\\
+\\
+$【頂点0から頂点4までの最短経路】$\\
+経路: 0 1 11 12 5 4 \\
+経路長: 11\\
+\\
+$<続けて探索する場合は"o"を入力>$ \\
+$<終了する場合はそれ以外のキーを入力>$ \\
+:o\\
+始点の頂点番号を入力してください:4\\
+終点の頂点番号を入力してください:9\\
+\\
+$【頂点4から頂点9までの最短経路】$\\
+経路: 4 5 12 13 9 \\
+経路長: 6 \\
+\\
+$<続けて探索する場合は"o"を入力>$\\
+$<終了する場合はそれ以外のキーを入力>$\\
+:fin
+
+\end{screen}
+
+\section{クラス仕様}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{MyGraphTestクラス}
+
+\subsubsection{役割}
+main()メソッドを持ち、プログラムの起点となる。
+入力から対象のファイル名、探索の始点、終点を受け取り、他の３つのクラスを利用して最短経路を出力する。
+
+\subsubsection{メンバ変数}
+\begin{description}
+\item[static boolean fileFoundFlag]\mbox{}\\
+ファイルの入力が既に正しく完了しているかどうかを示す。
+\item[static MyGraph graph]\mbox{}\\
+入力ファイルを元に構築したGraphクラスのオブジェクトを保持する。
+\item[static int[\textrm{]} inputVs]\mbox{}\\
+大きさ２の配列で、入力された始点と終点の番号を保持する。
+\item[static Scanner io]\mbox{}\\
+標準入力から入力を受け取るScannerクラスのオブジェクトを保持する。
+\end{description}
+
+\subsubsection{main()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+プログラムの起点となる。他のクラスとメソッドを使い、最短経路探索の実行の一連の動作を行う。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 String[] args\mbox{}\\
+    実行の際のオプションを受け付ける。今回のプログラムでは使用しない。 
+  \end{enumerate}
+\end{description}
+
+\subsubsection{input()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+一連の入力を受け付け、探索に必要な値とクラスをメンバ変数に準備する。
+必要であればエラーを標準出力に表示する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int[]\mbox{}\\
+    static int[] inputVsをそのまま返す。
+    他の課題のプログラムをそのまま利用している関係で残してあるが、本プログラムではinputVsをそのまま利用しているため不要。 
+  \end{enumerate}
+\end{description}
+
+\subsubsection{output()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+探索結果を標準出力に表示する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 LinkedList$<$Integer$>$ list\mbox{}\\
+    最短経路で通過する頂点列を順に保持したlistを与える。
+    探索結果の経路の表示に用いる。
+  \item 入力 int far\mbox{}\\
+    最短経路長を表す整数を与える。
+    探索結果の経路長の表示に用いる。
+  \end{enumerate}
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{MyGraphクラス}
+
+\subsubsection{役割}
+MyEdgeクラスのオブジェクトを用いてグラフを表現する。メソッドによって最短経路探索を行う。
+
+\subsubsection{メンバ変数}
+\begin{description}
+\item[static final int MAX\_VERTEX\_NUM]~\\
+入力の際に受け付ける頂点数の最大値を保持する。
+\item[static final int MAX\_EDGE\_NUM]~\\
+入力の際に受け付ける辺の数の最大値を保持する。
+\item[static final int MIN\_COST]~\\
+入力の際に受け付ける辺の重みの最小値を保持する。
+\item[static final int MAX\_COST]~\\
+入力の際に受け付ける辺の重みの最大値を保持する。
+\item[int V]~\\
+このグラフが持つ頂点の数を保持する。
+\item[int E]~\\
+このグラフが持つ辺の数を保持する。
+\item[ArrayList$<$LinkedList$<$MyEdge$>$$>$ graph]~\\
+各頂点から伸びる辺を格納したlistを保持する。
+\item[boolean complete]~\\
+このグラフが正しく構成されているかどうかを示す。
+\end{description}
+
+\subsubsection{ReadFromFile()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+与えられたファイルを読みグラフを構成する。必要であれば標準出力にエラーを表示する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 String filename\mbox{}\\
+    グラフを構成する際に参照する外部ファイルの名前を与える。 
+  \end{enumerate}
+\end{description}
+
+\subsubsection{isPrepared()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+このグラフが正しく構成済みであるかどうかを調査する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 boolean\mbox{}\\
+    メンバ変数completeの値を返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getEdges()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+このグラフで、ある頂点から伸びている全ての辺を検索する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int id\mbox{}\\
+    検索する頂点番号を与える。
+  \item 出力 LinkedList$<$MyEdge$>$\mbox{}\\
+    指定の頂点から伸びている辺を表すMyEdgeクラスのオブジェクトのlistを返す。 
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getV()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+このグラフの総頂点数を確認する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int\mbox{}\\
+    メンバ変数Vを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getE()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+このグラフの総辺数を確認する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int\mbox{}\\
+    メンバ変数Eを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{isValidIndex()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+指定された整数がこのグラフの頂点番号として適切かどうかを調査する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int index\mbox{}\\
+    調査する整数を与える。
+  \item 出力 boolean\mbox{}\\
+    与えられた整数が頂点番号の範囲内であればtrue、そうでなければfalseを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{waySearch()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+ある始点からある終点までの最短経路を探索する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int startV\mbox{}\\
+    探索の始点の頂点番号を与える。
+  \item 入力 int goalV\mbox{}\\
+    探索の終点の頂点番号を与える。
+  \item 出力 LinkedList$<$Integer$>$\mbox{}\\
+    探索結果の最短経路を示す頂点番号列の冒頭に、最短経路長を示す整数をつけたlistを返す。すなわち、このlistの0番目には最短経路長が、1番目以降には最短経路の頂点列が格納されている。 
+  \end{enumerate}
+\end{description}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{MyEdgeクラス}
+
+\subsubsection{役割}
+一本の辺を表す。
+
+\subsubsection{メンバ変数}
+\begin{description}
+\item[int v1]~\\
+この辺の一端の頂点番号を保持する。
+\item[int v2]~\\
+この辺のもう一端の頂点番号を保持する。
+\item[int cost]~\\
+この辺の重みを保持する。
+\end{description}
+
+\subsubsection{getCost()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この辺の持つ重みを確認する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int\mbox{}\\
+    メンバ変数costの値を返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getOpponentV()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+ある頂点に対して、この辺のもう一端にある頂点番号を確認する。
+
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int myV\mbox{}\\
+    この辺の一端の頂点番号を与える。
+  \item 出力 int\mbox{}\\
+    この辺のもう一端の頂点番号を返す。
+  \end{enumerate}
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{MyVertexクラス}
+
+\subsubsection{役割}
+一つの頂点を表し、キューの要素となる。頂点がキューから取り出される際の順序付けを規定する。
+
+\subsubsection{実装Interface}
+\begin{enumerate}
+\item java.lang.Comparable$<$MyVertex$>$\mbox{}\\
+このクラスには自然順序付けが定義される。
+\end{enumerate}
+
+\subsubsection{メンバ変数}
+\begin{description}
+\item[int index]~\\
+この頂点の頂点番号を保持する。
+\item[int far]~\\
+最短路探索の際に使用され、始点からの現在の最短距離を保持する。\\
+この値は探索が進むに連れて更新されていく。
+\item[int fromV]~\\
+最短路探索の際に使用され、この頂点に至る現在の最短経路の1つ前の頂点の番号を保持する。
+この値は探索が進むに連れて更新されていく。
+\item[boolean complete]~\\
+最短路探索の際に使用され、この頂点へ至る最短経路が確定したかどうかを保持する。
+\end{description}
+
+\subsubsection{setFar()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この頂点の始点からの最短距離を更新する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int\mbox{}\\
+    新たな最短距離を与える。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{setFromV()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+最短路でこの頂点の1つ前の頂点が何番であるかを更新する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int\mbox{}\\
+    新たな1つ前の頂点の番号を与える。
+  \end{enumerate}
+\end{description}
+
+
+\subsubsection{setComplete()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この頂点への最短経路が確定したかどうかを更新する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 boolean\mbox{}\\
+    確定したならtrue、未確定ならfalseを与える。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getIndex()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この頂点の番号を確認する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int\mbox{}\\
+    メンバ変数indexを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getFar()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この頂点へ至る現最短経路での経路長を確認する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int\mbox{}\\
+    メンバ変数farを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{getFromV()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この頂点に至る現最短経路での1つ前の頂点の番号を確認する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 int\mbox{}\\
+    メンバ変数fromVを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{isComplete()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+この頂点の最短経路が確定しているかどうかを確認する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 出力 boolean\mbox{}\\
+    メンバ変数completeを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{neededFarRenewal()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+ある最短路候補が示された時、この頂点への最短路を更新する必要があるかどうかを示す。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 int far2\mbox{}\\
+    示された最短路候補でのこの頂点への経路長を与える。
+  \item 出力 boolean~\\
+    最短路更新の必要があればtrue、そうでなければfalseを返す。
+  \end{enumerate}
+\end{description}
+
+\subsubsection{compareTo()メソッド}
+
+\begin{description}
+\item[機能]\mbox{}\\
+他のMyVertexと自分とを比べ、どちらがどれだけ大きいかを示し、このクラスの自然順序付けを定義する。Comparable Interfaceに属する。
+\item[インタフェース]\
+  \begin{enumerate}
+  \item 入力 MyVertex v\mbox{}\\
+    比較する他の頂点を示すMyVertexを与える。
+  \item 出力 int ~\\
+    比較先にくらべ、自分がどれだけ大きいかを返す。\\
+    自分のほうが大きければ正、小さければ負、等しければ0となる。
+  \end{enumerate}
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{プログラムの評価}
+
+\subsection{設計について}
+頂点を表すクラスMyVertexをつくり、これをリストの要素とする設計をした。
+PriorityQueueを利用するには要素のクラスにComparableインターフェースが実装され自然順序が付けられるか、コンストラクタ実行時にComparatorインターフェースを実装したクラスを引数として渡す必要がある。今回のプログラムではMyVertexに自然順序を定義することでキューから最小の距離を保持している頂点を取り出すよう設計した。代替案であるComparatorインターフェースを用いる設計は、キューに入れるクラスに既存のクラスを使う場合には便利であるが、自ら新たにクラスを作成して管理する場合は今回の方法の方が、「頂点が距離順に並ぶ」という、より自然な概念に基づいてコーディングできると考えた。
+
+辺のデータはMyEdgeクラスで表現し、二重リストで保持する設計にしている。内側のリストは羅列することを考慮しLinkedListに、外側のリストは検索に特化するためArrayListとした。
+\subsection{創意工夫した点}
+プログラムの制作ではクラス構造とオブジェクト指向を意識した。ただ数式や処理を羅列するのではなく、それぞれのクラスやメソッドが独立し、それが組み合わさる構造を心がけ、美しいコードが作成できるよう挑戦した。様々なエラーケースに対応した他、実用を考え連続で探索できるインターフェースを設計したところなども工夫した。
+\subsection{テストについて}
+プログラム作成後、様々なグラフを紙の上に書いた後データ化し、実際の最短経路と同様の出力が得られるかを確認した。２頂点間に複数の辺がある場合、到達できない点がある場合、自分から自分に向かう辺がある場合など、特殊なケースについてもきちんと動作することを確認した。
+\subsection{バグについて}
+大きなバグの発生はなかった。処理を羅列するのではなく、メソッドの集合体として考えることでバグの発生しにくいコーディングが出来ていた成果であると思う。
+\subsection{効率について}
+時間的なオーダーはもちろんのこと、無駄なメモリを消費しないよう心がけた。全体として、効率の良いコーディングができたと思う。
+\subsection{機能的完成度}
+以上より機能的完成度は高く、与えられた仕様に対して十分な性能を発揮していると言える。一部メンバ変数の置き方など改良できる点はあるが、仕様に従おうとするならば難しいかもしれない。
+
+
+
+\section{プログラム開発の経過}
+\begin{enumerate}
+\item 問題の分析と解法の検討
+(10分程度)
+\item クラス設計
+(30分程度)
+\item クラス内論理設計/プログラミング
+(140分程度)
+\item プログラムテスト，デバッグ
+(50分程度)
+\item 仕様書の作成
+(720分程度)
+\end{enumerate}
+
+\section{感想}
+オブジェクト指向を意識し、一つのプログラムが組み上がっていく感覚に手応えを感じた。
+メソッドの引数の与え方やメンバの持ち方などを試行錯誤し、より美しく機能的なコードを書けるよう努力していこうと思う。
+また、Latexによる仕様書はまだまだ上手く書けていないと感じるので、自分でコードを書く際にも仕様書を書くことを心がけ、今よりもクオリティの高い仕様書を短時間で作成できる力を身に付けていきたいと感じた。より素早く正確にものづくりが出来るようにになりたい。
+
+\newpage
+\section*{付録}
+\subsection{MyGraphTest.java}
+\begin{verbatim}
+import java.util.*;
+import java.io.*;
+
+public class MyGraphTest {
+    
+    public static boolean fileFoundFlag = false;
+    public static MyGraph graph;
+    public static int[] inputVs = new int[2];
+    public static Scanner io;
+    
+    public static void main(String[] args){
+        System.out.println("le1 ex12 ≪最短経路の探索≫");
+        graph = new MyGraph();
+        io = new Scanner(System.in);
+        do{
+            input();
+            LinkedList<Integer> farAndWay 
+                    = graph.waySearch(inputVs[0],inputVs[1]);
+            int far = farAndWay.poll();
+            output(farAndWay,far);
+           
+            System.out.print("\n<続けて探索する場合は\"o\"を入力>\n"
+                    + "<終了する場合はそれ以外のキーを入力>\n:");
+        }while(io.next().equals("o"));    
+    }
+    
+    // request input to user. set graph and inputVs. 
+    public static int[] input(){
+        while(!fileFoundFlag){
+            System.out.print("ファイル名を入力してください:");
+            graph.ReadFromFile(io.next());
+            if(graph.isPrepared()) fileFoundFlag = true;
+        }
+        LinkedList<Integer> list;
+        int inputN = 0;
+        while(inputN<2){
+            if(inputN == 0){
+                System.out.print("始点の頂点番号を入力してください:");
+            }else if(inputN == 1){    
+                System.out.print("終点の頂点番号を入力してください:");
+            
+            }
+            try{
+                inputVs[inputN] = io.nextInt();
+                if(!graph.isValidIndex(inputVs[inputN])){
+                    System.out.println("頂点番号は０から"+(graph.getV()-1)+"までの整数で入力して下さい。");
+                    continue;
+                }
+                inputN ++;
+            }catch(InputMismatchException e){
+                System.out.println("整数で入力してください。");
+                io.next();
+            }    
+        }
+        return inputVs;
+    }
+    
+    public static void output(LinkedList<Integer> list,int far){
+        System.out.println("\n【頂点"+inputVs[0]+"から頂点"+inputVs[1]+"までの最短経路】");
+        if(far == Integer.MAX_VALUE){
+            System.out.println("この頂点には到達できません。");
+        }else{
+            System.out.print("経路: ");
+            while(!list.isEmpty()){
+                System.out.print(list.poll()+" ");
+            }
+            System.out.println("\n経路長: "+far);
+        }    
+    }
+\end{verbatim}
+
+\subsection{MyGraph.java}
+\begin{verbatim}
+import java.util.*;
+import java.io.*;
+
+public class MyGraph {
+    public static final int MAX_VERTEX_NUM = 50,
+                            MAX_EDGE_NUM = 100,
+                            MIN_COST = 1,
+                            MAX_COST = 9999;
+    
+    private int V,E;
+    
+    private ArrayList<LinkedList<MyEdge>> graph;
+    private boolean complete;
+
+    public MyGraph(){
+        complete = false;
+    }
+    
+    public void ReadFromFile(String filename){
+        try{
+            Scanner io = new Scanner(new File(filename));
+            V = io.nextInt();
+            E = io.nextInt();
+            if(V>MAX_VERTEX_NUM){
+                System.out.println("頂点の数が多すぎます。\n"
+                        +MAX_VERTEX_NUM+"以下にしてください。");
+                return;
+            }
+            if(E>MAX_EDGE_NUM){
+                System.out.println("辺の数が多すぎます。\n"
+                        +MAX_EDGE_NUM+"以下にしてください。");
+                return;
+            }
+            
+            graph = new ArrayList<LinkedList<MyEdge>>(V);
+            for(int i=0;i<V;i++){
+                graph.add(new LinkedList<MyEdge>());
+            }
+            
+            int[] ei = new int[3];
+            for(int i=0;i<E;i++){
+                for(int j=0;j<3;j++){
+                    if(!io.hasNext()){
+                        System.out.println("データの数が不正です");
+                        return;
+                    }
+                    int num = io.nextInt();
+                    if((j==0 || j==1) && (num<0 || num>=V)){
+                        System.out.println("データ内の頂点番号が正しくないか、データのフォーマットが正しくありません。\n"
+                                + "頂点番号は０以上"+(V-1)+"以下にして下さい。");
+                        return;
+                    }
+                    if(j==2 && (num<MIN_COST || num>MAX_COST)){
+                        System.out.println("枝の重みが正しくないか、データのフォーマットが正しくありません。\n"
+                                + "枝の重みは"+MIN_COST+"以上"+MAX_COST+"以下にして下さい。");
+                        return;
+                    }
+                    ei[j] = num;
+                }
+                MyEdge edge = new MyEdge(ei[0],ei[1],ei[2]);
+                graph.get(ei[0]).add(edge);
+                if(ei[0] != ei[1])
+                 graph.get(ei[1]).add(edge);
+                    
+            }
+            if(io.hasNext()){
+                System.out.println("データの数が不正です");
+                return;
+            }
+            
+            complete = true;
+            
+        }catch(FileNotFoundException e){
+            System.out.println("ファイルが見つかりません。");
+        }catch(InputMismatchException e){
+            System.out.println("データには数値のみ使用してください。");
+        } 
+    }
+    
+    public boolean isPrepared(){
+        return complete;
+    }
+    
+    public LinkedList<MyEdge> getEdges(int id){
+        try{
+            return graph.get(id);
+        }catch(IndexOutOfBoundsException e){
+            return null;
+        }    
+    }
+    
+    public int getV(){
+        return V;
+    }
+    public int getE(){
+        return E;
+    }
+    public boolean isValidIndex(int index){
+        return index>=0 && index<V;
+    }
+    
+    public LinkedList<Integer> waySearch(int startV,int goalV){
+        MyVertex[] vers = new MyVertex[V];
+        for(int i=0;i<V;i++){
+            vers[i] = new MyVertex(i);
+        }
+        PriorityQueue<MyVertex> que = new PriorityQueue<MyVertex>();
+        
+        vers[startV].setFar(0);
+        que.add(vers[startV]);
+        
+        MyVertex nowV,nextV;
+        MyEdge nextE;
+        int nextFar;
+        LinkedList<MyEdge> nextEs;
+        
+        while(!que.isEmpty()){
+            nowV = que.poll();
+            if(nowV.getIndex() == goalV) break;
+            if(nowV.isComplete()) continue;
+            nextEs = getEdges(nowV.getIndex());
+            for(int i=0;i<nextEs.size();i++){
+                nextE = nextEs.peek();
+                nextV = vers[nextE.getOpponentV(nowV.getIndex())];
+                nextFar = nowV.getFar()+nextE.getCost();
+                if(nextV.neededFarRenewal(nextFar)){
+                    nextV.setFar(nextFar);
+                    nextV.setFromV(nowV.getIndex());
+                    que.offer(nextV);
+                }
+                nextEs.add(nextEs.poll());
+            }
+            nowV.setComplete();
+        }
+       
+        LinkedList<Integer> farAndWay = new LinkedList<Integer>();
+        nowV = vers[goalV];
+        while(nowV.getFromV() != -1){
+            farAndWay.addFirst(nowV.getIndex());
+            nowV = vers[nowV.getFromV()];
+        }
+        farAndWay.addFirst(startV);
+        farAndWay.addFirst(vers[goalV].getFar());
+        
+        return farAndWay;
+    }
+}
+\end{verbatim}
+
+\subsection{MyEdge.java}
+\begin{verbatim}
+
+public class MyEdge {
+    private int v1,v2;
+    private int cost;
+    
+    public MyEdge(int v1,int v2,int cost){
+        this.v1 = v1;
+        this.v2 = v2;
+        this.cost = cost;
+    }
+    
+    public int getCost(){
+        return cost;
+    }
+    
+    public int getOpponentV(int myV){
+        return (v1 == myV)?v2:v1;
+    }
+}
+\end{verbatim}
+
+\subsection{MyVertex.java}
+\begin{verbatim}
+public class MyVertex implements Comparable<MyVertex>{
+    private int index;
+    private int far;
+    private int fromV;
+    private boolean complete;
+    
+    public MyVertex(int index){
+        this.index = index;
+        far = Integer.MAX_VALUE;
+        fromV = -1;
+        complete = false;
+    }
+    
+    public void setFar(int far){
+        this.far = far;
+    }
+    public void setFromV(int fromV){
+        this.fromV = fromV;
+    }
+    public void setComplete(){
+        complete = true;
+    }
+    public int getIndex(){
+        return index;
+    }
+    public int getFar(){
+        return far;
+    }
+    public int getFromV(){
+        return fromV;
+    }
+    public boolean isComplete(){
+        return complete;
+    }
+    public boolean neededFarRenewal(int far2){
+        return far2<far;
+    }
+    
+    public int compareTo(MyVertex v){
+        return far-v.getFar();
+    }
+}
+\end{verbatim}
+\end{document}

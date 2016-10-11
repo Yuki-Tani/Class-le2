@@ -27,6 +27,8 @@
 
 package ch.idsia.scenarios;
 
+import ch.idsia.agents.Agent;
+import ch.idsia.agents.controllers.*;
 import ch.idsia.benchmark.tasks.BasicTask;
 import ch.idsia.tools.MarioAIOptions;
 
@@ -36,15 +38,43 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
+public static final int  SEED = 0,
+						  	DIFFICULTY = 1;
+public static final boolean DEAD_ENDS = false,
+							CANNONS = false,
+							HILL = false,
+							TUBES = false,
+							GAPS = false,
+							HIDDENBLOCKS = false,
+							BLOCKS = true,
+							COINS = false,
+							FLAT = true;
+
 public static void main(String[] args)
 {
     final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
     
-    int seed = 40;
-    int difficulty = 1; 
     
-    marioAIOptions.setLevelRandSeed(seed);
-    marioAIOptions.setLevelDifficulty(difficulty);
+    marioAIOptions.setLevelRandSeed(SEED);
+    marioAIOptions.setLevelDifficulty(DIFFICULTY);
+    marioAIOptions.setDeadEndsCount(DEAD_ENDS);
+    marioAIOptions.setCannonsCount(CANNONS);
+    marioAIOptions.setHillStraightCount(HILL);
+    marioAIOptions.setTubesCount(TUBES);
+    marioAIOptions.setGapsCount(GAPS);
+    marioAIOptions.setHiddenBlocksCount(HIDDENBLOCKS);
+    marioAIOptions.setBlocksCount(BLOCKS);
+    marioAIOptions.setCoinsCount(COINS);
+    marioAIOptions.setFlatLevel(FLAT);
+    
+    //敵の有無  
+    //marioAIOptions.setEnemies("off");//キラーとパックン
+    //marioAIOptions.setEnemies("s");
+    //marioAIOptions.setEnemies("ggk");
+    
+    // エージェントの追加
+    final Agent agent = new RandomAgent();
+    //marioAIOptions.setAgent(agent);
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);
     basicTask.setOptionsAndReset(marioAIOptions);
