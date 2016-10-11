@@ -41,9 +41,10 @@ public static void main(String[] args)
     final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
     
     int seed = 40;
-    int difficulty = 1;
-    marioAIOptions.setLevelDifficulty(difficulty);
+    int difficulty = 1; 
+    
     marioAIOptions.setLevelRandSeed(seed);
+    marioAIOptions.setLevelDifficulty(difficulty);
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);
     basicTask.setOptionsAndReset(marioAIOptions);

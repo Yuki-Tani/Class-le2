@@ -50,9 +50,9 @@ public static void main(String[] args)
     
     int d = 100;
     marioAIOptions.setLevelDifficulty(d);
-    
-    //marioAIOptions.setEnemies("off");
-    //marioAIOptions.setEnemies("g");
+ //敵の有無  
+    //marioAIOptions.setEnemies("off");//キラーとパックン
+    //marioAIOptions.setEnemies("s");
     marioAIOptions.setEnemies("ggk");
     
     marioAIOptions.setDeadEndsCount(true);

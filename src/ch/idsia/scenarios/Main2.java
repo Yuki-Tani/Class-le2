@@ -43,6 +43,7 @@ public static void main(String[] args)
 {
     final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
 
+    // エージェントの追加
     final Agent agent = new ForwardJumpingAgent();
     marioAIOptions.setAgent(agent);
     

@@ -49,7 +49,7 @@ public ForwardJumpingAgent()
 
 public boolean[] getAction()
 {
-    action[Mario.KEY_SPEED] = isMarioAbleToJump || !isMarioOnGround;
+    action[Mario.KEY_SPEED] = isMarioAbleToJump; //|| !isMarioOnGround;
     action[Mario.KEY_JUMP] = isMarioAbleToJump || !isMarioOnGround;
     return action;
 }
