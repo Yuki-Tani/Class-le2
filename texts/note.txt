@@ -1,0 +1,9 @@
+<コマンド>
+vi ファイル名（作成）
+	i (編集モード)　⇔　Ecs(コマンドモード)
+	:w（保存）
+	:q（終了）
+
+platex ~~~~~.tex
+dvipdfmx ~~~~.dvi
+xdg-open ~~~~~.pdf

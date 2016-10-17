@@ -32,49 +32,41 @@ import ch.idsia.agents.controllers.*;
 import ch.idsia.benchmark.tasks.BasicTask;
 import ch.idsia.tools.MarioAIOptions;
 
-/**
- * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey at idsia dot ch Date: Mar 17, 2010 Time: 8:28:00 AM
- * Package: ch.idsia.scenarios
+/*
+ * customized by Yuki Tani for AI programming. 
  */
 public final class Main
 {
-public static final int  SEED = 0,
-						  	DIFFICULTY = 1;
-public static final boolean DEAD_ENDS = false,
-							CANNONS = false,
-							HILL = false,
-							TUBES = false,
-							GAPS = false,
-							HIDDENBLOCKS = false,
-							BLOCKS = true,
-							COINS = false,
-							FLAT = true;
+public static final int  	SEED 		= 30,
+						  	DIFFICULTY 	= 0;
 
 public static void main(String[] args)
 {
     final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
     
-    
+    //ステージパラメータ
     marioAIOptions.setLevelRandSeed(SEED);
     marioAIOptions.setLevelDifficulty(DIFFICULTY);
-    marioAIOptions.setDeadEndsCount(DEAD_ENDS);
-    marioAIOptions.setCannonsCount(CANNONS);
-    marioAIOptions.setHillStraightCount(HILL);
-    marioAIOptions.setTubesCount(TUBES);
-    marioAIOptions.setGapsCount(GAPS);
-    marioAIOptions.setHiddenBlocksCount(HIDDENBLOCKS);
-    marioAIOptions.setBlocksCount(BLOCKS);
-    marioAIOptions.setCoinsCount(COINS);
-    marioAIOptions.setFlatLevel(FLAT);
+
+//  marioAIOptions.setDeadEndsCount(true);		//dead_ends
+//  marioAIOptions.setHiddenBlocksCount(true);	//hidden_blocks
+//  marioAIOptions.setFlatLevel(true);			//flat
+    
+//  marioAIOptions.setCoinsCount(false);		//coins
+//  marioAIOptions.setHillStraightCount(false);	//hill
+//  marioAIOptions.setBlocksCount(false);		//blocks
+//  marioAIOptions.setTubesCount(false);		//tubes
+//  marioAIOptions.setGapsCount(false); 		//gaps
+//  marioAIOptions.setCannonsCount(false);		//cannons
     
     //敵の有無  
-    //marioAIOptions.setEnemies("off");//キラーとパックン
-    //marioAIOptions.setEnemies("s");
-    //marioAIOptions.setEnemies("ggk");
+//  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
+//  marioAIOptions.setEnemies("g"); 	//クリボー
+//  marioAIOptions.setEnemies("ggk");
     
     // エージェントの追加
-    final Agent agent = new RandomAgent();
-    //marioAIOptions.setAgent(agent);
+    final Agent agent = new ScaredShooty();
+    marioAIOptions.setAgent(agent);
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);
     basicTask.setOptionsAndReset(marioAIOptions);

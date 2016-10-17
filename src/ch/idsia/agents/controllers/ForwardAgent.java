@@ -75,15 +75,17 @@ private boolean DangerOfAny()
 public boolean[] getAction()
 {
     // this Agent requires observation integrated in advance.
-
-	System.out.println(isMarioAbleToJump);
-    if (DangerOfAny() && getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 2)  // a coin//1から2に訂正
+if(DangerOfAny()){	
+	System.out.println("Danger!"+marioEgoCol);
+}	
+    if (DangerOfAny()) //&& getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 2)  // a coin//1から2に訂正
     {
         if (isMarioAbleToJump || (!isMarioOnGround && action[Mario.KEY_JUMP]))
         {
             action[Mario.KEY_JUMP] = true;
         }
         ++trueJumpCounter;
+//       	System.out.println(isMarioAbleToJump +"/"+ isMarioOnGround + " = "+action[Mario.KEY_JUMP]);
     }
     else
     {

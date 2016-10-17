@@ -49,8 +49,21 @@ public ForwardJumpingAgent()
 
 public boolean[] getAction()
 {
-    action[Mario.KEY_SPEED] = isMarioAbleToJump; //|| !isMarioOnGround;
+    action[Mario.KEY_SPEED] = isMarioAbleToJump || !isMarioOnGround;
+/*    if(isMarioAbleToJump){
+    	action[Mario.KEY_JUMP] = true;
+    	System.out.println("ableJump");	
+    }else if(!isMarioOnGround){
+    	action[Mario.KEY_JUMP] = true;
+    	System.out.println("inAir");
+    }else{
+    	//地面にいてジャンプ不可
+    	action[Mario.KEY_JUMP] = false;
+    	System.out.println("false");
+    }
+*/    
     action[Mario.KEY_JUMP] = isMarioAbleToJump || !isMarioOnGround;
+    System.out.println(isMarioAbleToJump +"/"+ isMarioOnGround + " = "+action[Mario.KEY_JUMP]);
     return action;
 }
 
