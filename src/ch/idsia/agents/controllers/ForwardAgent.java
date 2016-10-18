@@ -59,46 +59,40 @@ public void reset()
 }
 
 private boolean DangerOfAny()
-{
-
+{	
         if ((getReceptiveFieldCellValue(marioEgoRow + 2, marioEgoCol + 1) == 0 &&
             getReceptiveFieldCellValue(marioEgoRow + 1, marioEgoCol + 1) == 0) ||
             getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 0 ||
             getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 2) != 0 ||
             getEnemiesCellValue(marioEgoRow, marioEgoCol + 1) != 0 ||
             getEnemiesCellValue(marioEgoRow, marioEgoCol + 2) != 0)
-            return true;
+            {return true;}
         else
             return false;
 }
-
 public boolean[] getAction()
 {
-    // this Agent requires observation integrated in advance.
-if(DangerOfAny()){	
-	System.out.println("Danger!"+marioEgoCol);
-}	
-    if (DangerOfAny()) //&& getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 2)  // a coin//1から2に訂正
+    // this Agent requires observation integrated in advance
+    if (DangerOfAny() && getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 2)  // a coin//1から2に訂正
     {
         if (isMarioAbleToJump || (!isMarioOnGround && action[Mario.KEY_JUMP]))
         {
             action[Mario.KEY_JUMP] = true;
         }
         ++trueJumpCounter;
-//       	System.out.println(isMarioAbleToJump +"/"+ isMarioOnGround + " = "+action[Mario.KEY_JUMP]);
     }
     else
     {
         action[Mario.KEY_JUMP] = false;
         trueJumpCounter = 0;
     }
-
+  
     if (trueJumpCounter > 16)
     {
         trueJumpCounter = 0;
         action[Mario.KEY_JUMP] = false;
     }
-    
+    System.out.println(isMarioAbleToJump +"/"+ isMarioOnGround + " = "+action[Mario.KEY_JUMP]);
     return action;
 }
 }

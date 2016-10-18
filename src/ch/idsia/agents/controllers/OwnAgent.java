@@ -38,24 +38,66 @@ import ch.idsia.benchmark.mario.environments.Environment;
  * Time: 4:03:46 AM
  */
 
-public class OwnAgent extends BasicMarioAIAgent implements Agent
-{
-int trueJumpCounter = 0;
-int trueSpeedCounter = 0;
+public class OwnAgent extends BasicMarioAIAgent implements Agent{
+	
+private OwnAgentSenses senses;
+private int jumpCont = 0;
+//private int jumpWdT;
 
-public OwnAgent()
-{
+public OwnAgent(){
+	
     super("OwnAgent");
+    senses = new OwnAgentSenses(this);
     reset();
 }
 
-public void reset()
-{
+public void reset(){
+	
     action = new boolean[Environment.numberOfKeys];
+    action[Mario.KEY_RIGHT] = true;
+    action[Mario.KEY_SPEED] = false;
+//    jumpWdT = 0;
 }
 
-public boolean[] getAction()
-{
+public boolean[] getAction(){
+	
+	//JUMP
+	if(jumpCont == 0){
+		if(senses.catchObstacle(marioEgoRow,marioEgoCol+1)){
+			jump(true);
+//			jumpWdT ++;
+		
+		}else{
+			jump(false);
+			//		jumpWdT = 0;
+		}
+		if(senses.catchHole(marioEgoRow+1,marioEgoCol+1,5)) jump(true,5);
+/*	if(jumpWdT>20){
+		action[Mario.KEY_JUMP] = false;
+		jumpWdT = 0;
+	}
+*/
+		if(jumpCont>0) jumpCont --;
+	}
+	if(senses.feelLanding()){
+		jump(false); jumpCont = 0;
+	}
+	
+	System.out.println(action[Mario.KEY_JUMP]);
     return action;
 }
+
+//private methods
+private void jump(boolean push,int continuity){
+	jumpCont = continuity;
+	action[Mario.KEY_JUMP] = push;
 }
+private void jump(boolean push){
+	jump(push,0);
+}
+}
+/*
+ * 10/18
+ * 高い壁も、壁がある限りジャンプボタンを離さない
+ * 壁際に着地した場合trueのままとなる
+ */

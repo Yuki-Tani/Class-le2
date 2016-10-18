@@ -38,7 +38,7 @@ import ch.idsia.tools.MarioAIOptions;
 public final class Main
 {
 public static final int  	SEED 		= 30,
-						  	DIFFICULTY 	= 0;
+						  	DIFFICULTY 	= 10;
 
 public static void main(String[] args)
 {
@@ -65,7 +65,7 @@ public static void main(String[] args)
 //  marioAIOptions.setEnemies("ggk");
     
     // エージェントの追加
-    final Agent agent = new ScaredShooty();
+    final Agent agent = new ForwardJumpingAgent();
     marioAIOptions.setAgent(agent);
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);
