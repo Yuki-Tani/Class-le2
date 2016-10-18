@@ -39,15 +39,17 @@ import ch.idsia.benchmark.mario.environments.Environment;
  */
 
 public class OwnAgent extends BasicMarioAIAgent implements Agent{
+private static final int ACCEPT = -1;
 	
 private OwnAgentSenses senses;
-private int jumpCont = 0;
+private int jumpState;
 //private int jumpWdT;
 
 public OwnAgent(){
 	
     super("OwnAgent");
     senses = new OwnAgentSenses(this);
+    jumpState = ACCEPT;
     reset();
 }
 
@@ -56,31 +58,33 @@ public void reset(){
     action = new boolean[Environment.numberOfKeys];
     action[Mario.KEY_RIGHT] = true;
     action[Mario.KEY_SPEED] = false;
-//    jumpWdT = 0;
+    jumpState = ACCEPT;
 }
 
 public boolean[] getAction(){
 	
 	//JUMP
-	if(jumpCont == 0){
-		if(senses.catchObstacle(marioEgoRow,marioEgoCol+1)){
-			jump(true);
-//			jumpWdT ++;
-		
-		}else{
+	if(jumpState > 0){
+		jumpState --;
+		if(jumpState == 0 || senses.feelLanding()){
 			jump(false);
-			//		jumpWdT = 0;
+			jumpState = ACCEPT;
 		}
-		if(senses.catchHole(marioEgoRow+1,marioEgoCol+1,5)) jump(true,5);
-/*	if(jumpWdT>20){
-		action[Mario.KEY_JUMP] = false;
-		jumpWdT = 0;
-	}
-*/
-		if(jumpCont>0) jumpCont --;
-	}
-	if(senses.feelLanding()){
-		jump(false); jumpCont = 0;
+	}else if(jumpState == ACCEPT && isMarioAbleToJump){
+		int height = senses.catchObstacle(marioEgoRow,marioEgoCol+1);
+		System.out.print(height+" ");
+		switch(height){
+		case 0: jump(false); 	break;
+		case 1: jump(1);		break;
+		case 2: jump(2);		break;
+		case 3: jump(4);		break;
+		case 4: jump(5);		break;
+		default: jump(5);
+		}
+		if(senses.catchHole(marioEgoRow+1,marioEgoCol+1,5)){
+			System.out.print("hole ");
+			jump(true,5);
+		}
 	}
 	
 	System.out.println(action[Mario.KEY_JUMP]);
@@ -88,13 +92,12 @@ public boolean[] getAction(){
 }
 
 //private methods
-private void jump(boolean push,int continuity){
-	jumpCont = continuity;
+private void jump(boolean push,int jumpSize){
+	if(push) jumpState = jumpSize;
 	action[Mario.KEY_JUMP] = push;
 }
-private void jump(boolean push){
-	jump(push,0);
-}
+private void jump(boolean push){jump(push,5);}
+private void jump(int jumpSize){jump(true,jumpSize);}
 }
 /*
  * 10/18

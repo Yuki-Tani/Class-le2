@@ -37,8 +37,8 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-public static final int  	SEED 		= 30,
-						  	DIFFICULTY 	= 10;
+public static final int  	SEED 		= 5,
+						  	DIFFICULTY 	= 1;
 
 public static void main(String[] args)
 {
@@ -60,12 +60,12 @@ public static void main(String[] args)
 //  marioAIOptions.setCannonsCount(false);		//cannons
     
     //敵の有無  
-//  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
+  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
 //  marioAIOptions.setEnemies("g"); 	//クリボー
 //  marioAIOptions.setEnemies("ggk");
     
     // エージェントの追加
-    final Agent agent = new ForwardJumpingAgent();
+    final Agent agent = new OwnAgent();
     marioAIOptions.setAgent(agent);
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);

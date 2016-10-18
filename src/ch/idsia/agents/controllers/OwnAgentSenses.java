@@ -4,20 +4,34 @@ import ch.idsia.benchmark.mario.engine.GeneralizerLevelScene;
 
 
 public class OwnAgentSenses {
+	private static final int SMALL =0,LARGE = 1,FIRE = 2;
 	private BasicMarioAIAgent ai;
 	public OwnAgentSenses(BasicMarioAIAgent aiAgent){
 		ai = aiAgent;
 	}
-	public boolean catchObstacle(int row,int col){
-		switch(ai.getReceptiveFieldCellValue(row,col)){
-		case GeneralizerLevelScene.BRICK:
-		case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
-		case GeneralizerLevelScene.FLOWER_POT_OR_CANNON:
-		case GeneralizerLevelScene.LADDER:
-					return true;
-		default: 	return false;
+	
+	public int catchObstacle(int row,int col){
+		int height = 0;
+		int tall;
+		if(ai.marioMode==SMALL) tall = 1;
+		else tall = 2;
+		while(tall>0){
+			switch(ai.getReceptiveFieldCellValue(row-height,col)){
+			case GeneralizerLevelScene.BRICK:
+			case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
+			case GeneralizerLevelScene.FLOWER_POT_OR_CANNON:
+			case GeneralizerLevelScene.LADDER:
+				height ++;
+				if(ai.marioMode==SMALL) tall = 1;
+				else tall = 2; break;		
+			default: 
+				height ++;
+				tall --;
+			}
 		}	
+		return (ai.marioMode==SMALL)? height-1 : height-2;
 	}
+	
 	public boolean catchHole(int row,int col,int depth){
 		if(!ai.isMarioOnGround) return false;
 		for(int i=0;i<depth;i++){
