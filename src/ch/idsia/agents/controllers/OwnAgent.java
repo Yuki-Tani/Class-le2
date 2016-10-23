@@ -37,70 +37,64 @@ import ch.idsia.benchmark.mario.environments.Environment;
  * Date: Apr 8, 2009
  * Time: 4:03:46 AM
  */
-
 public class OwnAgent extends BasicMarioAIAgent implements Agent{
-private static final int ACCEPT = -1;
 	
+private OwnAgentBrain brain;	
 private OwnAgentSenses senses;
-private int jumpState;
+
+protected static final int ACCEPT = -1;
+protected int jumpState;
+
 //private int jumpWdT;
 
-public OwnAgent(){
-	
-    super("OwnAgent");
+public OwnAgent(){this("OwnAgent");}
+public OwnAgent(String name){
+    super(name);
+    brain = new OwnBasicBrain01(this);
     senses = new OwnAgentSenses(this);
-    jumpState = ACCEPT;
+    brain.connect(senses);
     reset();
 }
 
 public void reset(){
-	
-    action = new boolean[Environment.numberOfKeys];
-    action[Mario.KEY_RIGHT] = true;
-    action[Mario.KEY_SPEED] = false;
-    jumpState = ACCEPT;
+	action = new boolean[Environment.numberOfKeys];
+	jumpState = ACCEPT;
+	brain.prepare();
 }
 
 public boolean[] getAction(){
-	
-	//JUMP
-	if(jumpState > 0){
-		jumpState --;
-		if(jumpState == 0 || senses.feelLanding()){
-			jump(false);
-			jumpState = ACCEPT;
-		}
-	}else if(jumpState == ACCEPT && isMarioAbleToJump){
-		int height = senses.catchObstacle(marioEgoRow,marioEgoCol+1);
-		System.out.print(height+" ");
-		switch(height){
-		case 0: jump(false); 	break;
-		case 1: jump(1);		break;
-		case 2: jump(2);		break;
-		case 3: jump(4);		break;
-		case 4: jump(5);		break;
-		default: jump(5);
-		}
-		if(senses.catchHole(marioEgoRow+1,marioEgoCol+1,5)){
-			System.out.print("hole ");
-			jump(true,5);
-		}
-	}
-	
-	System.out.println(action[Mario.KEY_JUMP]);
+	brain.direction();
     return action;
 }
 
-//private methods
-private void jump(boolean push,int jumpSize){
+protected void jump(boolean push,int jumpSize){
 	if(push) jumpState = jumpSize;
 	action[Mario.KEY_JUMP] = push;
 }
-private void jump(boolean push){jump(push,5);}
-private void jump(int jumpSize){jump(true,jumpSize);}
+protected void jump(boolean push){jump(push,5);}
+protected void jump(int jumpSize){jump(true,jumpSize);}
+
+protected void dash(boolean push){
+	action[Mario.KEY_SPEED] = push;
+}
+protected void right(boolean push){
+	action[Mario.KEY_RIGHT] = push;
+}
+protected void reft(boolean push){
+	action[Mario.KEY_LEFT] = push;
+}
+protected void squat(boolean push){
+	action[Mario.KEY_DOWN] = push;
+}
+
 }
 /*
+ * 10/19
+ * 死に穴以外の穴にも考慮
+ * 1,2マス穴を1ジャンプで回避　53-> 46
  * 10/18
  * 高い壁も、壁がある限りジャンプボタンを離さない
  * 壁際に着地した場合trueのままとなる
+ * 空中で穴判定をすると着地のときに反応できなくなる
+ * MainTask2クリア
  */
