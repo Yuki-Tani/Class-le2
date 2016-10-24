@@ -1,6 +1,7 @@
 package ch.idsia.agents.controllers;
 
 import ch.idsia.benchmark.mario.engine.GeneralizerLevelScene;
+import ch.idsia.benchmark.mario.engine.sprites.Sprite;
 
 
 public class OwnAgentSenses {
@@ -35,11 +36,11 @@ public class OwnAgentSenses {
 		return (ag.marioMode==SMALL)? height-1 : height-2;
 	}
 	
-	// return [depth,length]
+	// return [depth,length,height]
 	public int[] catchHole(int row,int col){
 		int MAX_DEPTH = 6;
 		int MAX_LENGTH = 5;
-		int[] hole = new int[2];
+		int[] hole = new int[3];
 		if(!ag.isMarioOnGround) return hole;
 		
 		depth:while(hole[0]<MAX_DEPTH){
@@ -54,7 +55,7 @@ public class OwnAgentSenses {
 					hole[0]++;	
 			}
 		}
-		length:while(hole[1]<MAX_LENGTH){
+		length:while(hole[1]<MAX_LENGTH){ 
 			switch(ag.getReceptiveFieldCellValue(row,col+hole[1])){
 			case GeneralizerLevelScene.BRICK:
 			case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
@@ -66,7 +67,11 @@ public class OwnAgentSenses {
 					hole[1]++;	
 			}
 		}
+		hole[2] = catchObstacle(row-1,col +hole[1]+1); 
 		return hole;
+	}
+	public boolean catchEnemy(int row,int col){
+		return ag.getEnemiesCellValue(row,col)!=Sprite.KIND_NONE;
 	}
 	public boolean feelLanding(){
 		return !ag.isMarioAbleToJump && ag.isMarioOnGround;
