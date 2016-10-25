@@ -149,13 +149,13 @@ public static void main(String[] args){
 
 	/* 学習に用いるAgentを指定 */
 	/* MainTask4_1.java */
-	LearningAgent learningAgent = new LearningWithMC("-lde on -i on -ltb off -ld 2 -ls 0 -le g");
+//	LearningAgent learningAgent = new LearningWithMC("-lde on -i on -ltb off -ld 2 -ls 0 -le g");
 	
 	/* MainTask4_2.java */
 	// LearningAgent learningAgent = new LearningWithMC("-lco off -lb on -le off -lhb off -lg on -ltb on -lhs off -lca on -lde on -ld 5 -ls 133829");
 	
 	/* MainTask4_3.java */
-	// LearningAgent learningAgent = new LearningWithMC("-lde on -i off -ld 30 -ls 133434 -lhb on");
+	 LearningAgent learningAgent = new LearningWithMC("-lde on -i off -ld 30 -ls 133434 -lhb on");
 
 	System.out.println("main.learningAgent = " + learningAgent);
 
@@ -175,7 +175,7 @@ public static void main(String[] args){
 //	marioAIOptions.setArgs("-lf on -lg on");
 //	finalScore += LearningTrack.evaluateSubmission(marioAIOptions, learningAgent);
     /* ステージ生成 */
-	//marioAIOptions.setArgs("-le 1 -ld 2");
+//	marioAIOptions.setArgs("-le 1 -ld 2");
 
 
 	/*------ Level 1 ------*/
@@ -198,18 +198,18 @@ public static void main(String[] args){
 	*/
 
 	/*------ Level 3 ------*/
-    /*
-    marioAIOptions = new MarioAIOptions(args);
-    marioAIOptions.setArgs("-lde on -i on -ld 30 -ls 133434 -lhb on");
-    finalScore += LearningTrack.evaluateSubmission(marioAIOptions, learningAgent);
-	*/
+    
+//    marioAIOptions = new MarioAIOptions(args);
+//    marioAIOptions.setArgs("-lde on -i on -ld 30 -ls 133434 -lhb on");
+//    finalScore += LearningTrack.evaluateSubmission(marioAIOptions, learningAgent);
+	
 
 	/*------ Level 4 ------*/
-
-//    marioAIOptions = new MarioAIOptions(args);
-//    marioAIOptions.setArgs("-lla on -le off -lhs on -lde on -ld 5 -ls 1332656");
-//    finalScore += LearningTrack.evaluateSubmission(marioAIOptions, learningAgent);
-
+/*
+    marioAIOptions = new MarioAIOptions(args);
+    marioAIOptions.setArgs("-lla on -le off -lhs on -lde on -ld 5 -ls 1332656");
+    evaluateSubmission(marioAIOptions, learningAgent);
+*/
 
     /* Level 5 (bonus level) */
 
