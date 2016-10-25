@@ -2,6 +2,7 @@ package ch.idsia.agents.controllers;
 
 import ch.idsia.benchmark.mario.engine.sprites.Mario;
 
+
 public class OwnBasicBrain01 extends OwnAgentBrain{
 	private static final int ACCEPT = OwnAgent.ACCEPT;
 	
@@ -37,18 +38,18 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 			for(int i=1;i<=3;i++){
 				height = Math.max(height,sn.catchObstacle(ag.marioEgoRow,ag.marioEgoCol+i));
 			}
-			System.out.print("wall:"+height+" ");
+//			System.out.println("wall:"+height+" ");
 			switch(height){
 			case 0:	break;
 			case 1: ag.jump(1);		break;
 			case 2: ag.jump(2);		break;
 			case 3: ag.jump(4);		break;
-			case 4: ag.jump(5);		break;
-			default: ag.jump(5);
+			case 4: ag.jump(7);		break;
+			default: ag.jump(8);
 			} 
 			//hole
 			int[] hole = sn.catchHole(ag.marioEgoRow+1,ag.marioEgoCol+1);
-			System.out.print("hole:"+hole[0]+":"+hole[1]+":"+hole[2]+" ");
+//			System.out.print("hole:"+hole[0]+":"+hole[1]+":"+hole[2]+" ");
 			if(hole[0]>4){
 				ag.jump(1);
 			}else if(hole[1]<=0){
@@ -64,6 +65,6 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 				}
 			}
 		}
-		System.out.println(ag.action[Mario.KEY_JUMP]+"/"+ag.action[Mario.KEY_SPEED]);
+//		System.out.println(ag.action[Mario.KEY_JUMP]+"/"+ag.action[Mario.KEY_SPEED]);
 	}
 }

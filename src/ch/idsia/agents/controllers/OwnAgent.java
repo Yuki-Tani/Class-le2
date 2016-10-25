@@ -45,7 +45,6 @@ private OwnAgentSenses senses;
 protected static final int ACCEPT = -1;
 protected int jumpState;
 
-//private int jumpWdT;
 
 public OwnAgent(){this("OwnAgent");}
 public OwnAgent(String name){

@@ -37,15 +37,20 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-public static final int  	SEED 		= 30,
-						  	DIFFICULTY 	= 1;
+public static final int  	SEED 		= 80,
+						  	DIFFICULTY 	= 2,
+						  	REPEAT 		= 20,
+						  	REPEAT_PLUS = 1;
 
 public static void main(String[] args)
 {
-    final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
+    MarioAIOptions marioAIOptions;
     
+    for(int i=0;i<REPEAT;i++){
+    marioAIOptions = new MarioAIOptions(args);
+
     //ステージパラメータ
-    marioAIOptions.setLevelRandSeed(SEED);
+    marioAIOptions.setLevelRandSeed(SEED+i*REPEAT_PLUS);
     marioAIOptions.setLevelDifficulty(DIFFICULTY);
 
 //  marioAIOptions.setDeadEndsCount(true);		//dead_ends
@@ -60,8 +65,8 @@ public static void main(String[] args)
 //  marioAIOptions.setCannonsCount(false);		//cannons
     
     //敵の有無  
-//  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
-  marioAIOptions.setEnemies("g"); 	//クリボー
+  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
+//  marioAIOptions.setEnemies("g"); 	//クリボー
 //  marioAIOptions.setEnemies("ggk");
     
     // エージェントの追加
@@ -71,6 +76,7 @@ public static void main(String[] args)
     final BasicTask basicTask = new BasicTask(marioAIOptions);
     basicTask.setOptionsAndReset(marioAIOptions);
     basicTask.doEpisodes(1,true,1);
+    }
     System.exit(0);
 }
 
