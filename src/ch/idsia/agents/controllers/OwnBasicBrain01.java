@@ -17,12 +17,10 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 	@Override
 	public void direction(){
 		//JUMP
-		if(ag.jumpState > 0){
-			ag.jumpState --;
-			if(ag.jumpState == 0 || sn.feelLanding()){
-				ag.jump(false);
-				ag.jumpState = ACCEPT;
-			}
+		if(ag.jumpState == 0 || sn.feelLanding()){
+			ag.jump(false);
+			ag.jumpState = ACCEPT;
+			
 		}else if(ag.jumpState == ACCEPT && ag.isMarioAbleToJump && ag.isMarioOnGround){
 			ag.dash(true);
 			ag.jump(false);

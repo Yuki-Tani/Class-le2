@@ -64,6 +64,7 @@ public void reset(){
 
 public boolean[] getAction(){
 	brain.direction();
+	if(jumpState>0) jumpState --;
     return action;
 }
 
