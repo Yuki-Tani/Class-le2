@@ -37,7 +37,6 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-
 public static final int  	SEED 		= 80,
 						  	DIFFICULTY 	= 2,
 						  	REPEAT 		= 20,
