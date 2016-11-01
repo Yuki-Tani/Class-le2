@@ -17,7 +17,7 @@ public class TestAgent extends OwnAgent implements Agent{
 		jumpState = ACCEPT;
 	    action = new boolean[Environment.numberOfKeys];
 	    action[Mario.KEY_RIGHT] = true;
-	    action[Mario.KEY_SPEED] = true;
+	    action[Mario.KEY_SPEED] = false;
 	}
 	public boolean[] getAction(){
 		if(jumpState==ACCEPT && isMarioAbleToJump){

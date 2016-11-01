@@ -58,13 +58,13 @@ private static void evaluateSubmission(MarioAIOptions marioAIOptions, LearningAg
     LearningTask learningTask = new LearningTask(marioAIOptions);
 
     /* 学習制限回数を取得 */
-    learningAgent.setEvaluationQuota(LearningTask.getEvaluationQuota());
+//    learningAgent.setEvaluationQuota(LearningTask.getEvaluationQuota());
 
     /* 作ったオブジェクトをLearningAgentのTaskとして渡す */
-    learningAgent.setLearningTask(learningTask);
+//    learningAgent.setLearningTask(learningTask);
 
     /* LearningAgentの初期化 */
-    learningAgent.init();
+//    learningAgent.init();
 
 //    for(int i=0 ; i<LearningTask.getEvaluationQuota() ; i++){	//forで繰り返す???
 //    	System.out.println("世代 : "+i);

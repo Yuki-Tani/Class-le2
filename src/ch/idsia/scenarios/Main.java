@@ -37,9 +37,9 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-public static final int  	SEED 		= 80,
-						  	DIFFICULTY 	= 2,
-						  	REPEAT 		= 20,
+public static final int  	SEED 		= 60,
+						  	DIFFICULTY 	= 1,
+						  	REPEAT 		= 1,
 						  	REPEAT_PLUS = 1;
 
 public static void main(String[] args)
@@ -61,13 +61,16 @@ public static void main(String[] args)
 //  marioAIOptions.setHillStraightCount(false);	//hill
   marioAIOptions.setBlocksCount(false);		//blocks
   marioAIOptions.setTubesCount(false);		//tubes
-//  marioAIOptions.setGapsCount(false); 		//gaps
+  marioAIOptions.setGapsCount(false); 		//gaps
 //  marioAIOptions.setCannonsCount(false);		//cannons
     
     //敵の有無  
   marioAIOptions.setEnemies("off");	//キラーとパックンのみ
 //  marioAIOptions.setEnemies("g"); 	//クリボー
 //  marioAIOptions.setEnemies("ggk");
+
+  //表示
+//  marioAIOptions.setVisualization(false);
     
     // エージェントの追加
     final Agent agent = new TestAgent();
