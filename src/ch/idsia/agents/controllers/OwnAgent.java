@@ -44,12 +44,14 @@ private OwnAgentSenses senses;
 
 protected static final int ACCEPT = -1;
 protected int jumpState;
+protected int speed;
+protected int stockPhy;
 
 
 public OwnAgent(){this("OwnAgent");}
 public OwnAgent(String name){
     super(name);
-    brain = new OwnBasicBrain01(this);
+    brain = new OwnBasicBrain02(this);
     senses = new OwnAgentSenses(this);
     brain.connect(senses);
     reset();
@@ -58,34 +60,73 @@ public OwnAgent(String name){
 public void reset(){
 	action = new boolean[Environment.numberOfKeys];
 	jumpState = ACCEPT;
+	speed = 0;
+	stockPhy = 0;
 	brain.prepare();
 }
 
 public boolean[] getAction(){
+	speedProcedure();
 	brain.direction();
 	if(jumpState>0) jumpState --;
-	System.out.println(distancePassedPhys);
     return action;
 }
 
+//procedure methods
+protected void speedProcedure(){
+	speed = distancePassedPhys - stockPhy;
+	stockPhy = distancePassedPhys;
+}
+protected boolean jumpProcedure(){
+	boolean during = jumpState == 0 || senses.feelLanding();
+	if(during){
+		jump(false);
+		jumpState = ACCEPT;
+	}
+	return during;
+}
+
+//control methods
 protected void jump(boolean push,int jumpSize){
 	if(push) jumpState = jumpSize;
 	action[Mario.KEY_JUMP] = push;
 }
-protected void jump(boolean push){jump(push,5);}
+protected void jump(boolean push){jump(push,4);}
 protected void jump(int jumpSize){jump(true,jumpSize);}
 
-protected void dash(boolean push){
-	action[Mario.KEY_SPEED] = push;
+protected void move(int speed){
+	if(speed>0){
+		if(this.speed>speed){
+			right(false); left(false); dash(false);
+		}else{
+			right(true); left(false); dash(true);
+		}
+	}else if(speed<0){	
+		if(this.speed<speed){
+			right(false); left(false); dash(false);
+		}else{
+			right(false); left(true); dash(true);
+		}
+	}else if(speed == 0){
+		if(this.speed>speed){
+			right(false); left(true); dash(true);
+		}else if(this.speed<speed){
+			right(true); left(false); dash(true);
+		}else{
+			right(false); left(false); dash(false);
+		}
+	}
 }
 protected void right(boolean push){
 	action[Mario.KEY_RIGHT] = push;
 }
-protected void reft(boolean push){
+protected void left(boolean push){
 	action[Mario.KEY_LEFT] = push;
+}
+protected void dash(boolean push){
+	action[Mario.KEY_SPEED] = push;
 }
 protected void squat(boolean push){
 	action[Mario.KEY_DOWN] = push;
 }
-
 }
