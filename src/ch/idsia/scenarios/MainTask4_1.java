@@ -43,7 +43,7 @@ public static void main(String[] args)
     final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
 
     final Agent agent = new OwnAgent();
-//    marioAIOptions.setAgent(agent);
+    marioAIOptions.setAgent(agent);
 
     int seed = 0;
     marioAIOptions.setLevelRandSeed(seed);

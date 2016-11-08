@@ -73,7 +73,7 @@ public static void main(String[] args)
 //  marioAIOptions.setVisualization(false);
     
     // エージェントの追加
-    final Agent agent = new OwnAgent();
+    final Agent agent = new TestAgent();
     marioAIOptions.setAgent(agent); 
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);

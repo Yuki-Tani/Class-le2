@@ -40,8 +40,8 @@ import ch.idsia.benchmark.mario.environments.Environment;
  */
 public class OwnAgent extends BasicMarioAIAgent implements Agent{
 	
-private OwnAgentBrain brain;	
-private OwnAgentSenses senses;
+protected OwnAgentBrain brain;	
+protected OwnAgentSenses senses;
 
 protected static final int ACCEPT = -1;
 protected static final int MAX_FUTURE_VISION = 50;
@@ -65,8 +65,8 @@ public void reset(){
 	action = new boolean[Environment.numberOfKeys];
 	totalTick = 0;
 	jumpState = ACCEPT;
-	speed = 0;
-	stockPhy = 0;
+	speedX = 0; speedY = 0;
+	stockPx = 0; stockPy = 0;
 	brain.prepare();
 }
 
@@ -80,18 +80,22 @@ public boolean[] getAction(){
 }
 
 //procedure methods
-protected float speed;
-protected float stockPhy;
+protected float speedX;
+protected float speedY;
+protected float stockPx;
+protected float stockPy;
 
 protected void speedProcedure(){
-	speed = marioFloatPos[0] - stockPhy;
-	stockPhy = marioFloatPos[0];
+	speedX = marioFloatPos[0] - stockPx;
+	stockPx = marioFloatPos[0];
+	speedY = marioFloatPos[1] - stockPy;
+	stockPy = marioFloatPos[1];
 }
 
 protected int jumpState;
 
 protected boolean jumpProcedure(){
-	boolean fin = jumpState <= 0 || senses.feelLanding();
+	boolean fin = jumpState <= 0 || senses.feelLanding() || speedY>0;
 	if(fin){
 		jump(false);
 		jumpState = ACCEPT;
@@ -129,13 +133,11 @@ protected boolean rideOn(int dCx,int dCy){
 	else if(dCy==4) jumpSize=7;
 	else return false;
 	
-	int tick = jumpTickToMaxCell(jumpSize);
-	float dPxMax = speed*0.89f*X_EFFECT[tick] +X_12_ADDITION[tick];
-	int dPx = dCx*16 - (int)marioFloatPos[0]%16;
-	System.out.println(dPx+"::"+dPxMax);
-	if(dPx>dPxMax) return false;
+	int tick = brain.jumpTickToMaxCell(jumpSize);
 	
-	System.out.println("rideOn::("+dCx+","+dCy+")");
+	int dPx = dCx*16 - (int)marioFloatPos[0]%16;
+	if(!brain.isAbleToMove(tick,dPx)) return false;
+//	System.out.println("rideOn::("+dCx+","+dCy+")");
 	jump(jumpSize);
 	hrzMove(tick,dPx);
 	return true;
@@ -157,7 +159,7 @@ protected void hrzControl(int tick,int dPx){
 	if(tick<0) return;
 	right(false); left(false); speed(false);
 	float block = X_12_ADDITION[tick]/4.0f;
-	float x0All = speed*0.89f*X_EFFECT[tick];
+	float x0All = speedX*0.89f*X_EFFECT[tick];
 //	System.out.println(x0All+"(b:"+block+") -> "+dPx);
 	if(x0All<=dPx){
 		if(x0All+block+0.5<dPx) right(true);
@@ -206,6 +208,8 @@ protected void down(boolean push){
 	action[Mario.KEY_DOWN] = push;
 }
 
+
+
 // private methods
 private void setFixedNums(){
 	X_EFFECT = new float[MAX_FUTURE_VISION+1];
@@ -224,32 +228,6 @@ private void setFixedNums(){
 //		System.out.println("max"+i+": "+X_12_ADDITION[i]);
 	}
 //	System.out.println("->"+X_12_ADDITION[50]);
-}
-private int jumpTickToMaxCell(int jumpSize){
-	switch(jumpSize){
-	case 1: return 6; //1
-	case 2: return 7; //2
-	case 3: return 8;
-	case 4: return 8; //3
-	case 5: return 9;
-	case 6: return 10;
-	case 7: return 8; //4
-	case 8: return 9;
-	}
-	return -1;
-}
-private int jumpTickToMaxPhy(int jumpSize){
-	switch(jumpSize){
-	case 1: return 4;
-	case 2: return 5;
-	case 3: return 5;
-	case 4: return 6;
-	case 5: return 6;
-	case 6: return 7;
-	case 7: return 8;
-	case 8: return 8;
-	}
-	return -1;
 }
 
 }

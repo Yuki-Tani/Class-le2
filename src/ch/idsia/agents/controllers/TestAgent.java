@@ -7,13 +7,9 @@ import ch.idsia.benchmark.mario.environments.Environment;
 public class TestAgent extends OwnAgent implements Agent{
 
 	int tag = 0;
-
-	
-	OwnAgentSenses senses;
 	
 	public TestAgent(){
 		super("TestAgent");
-		senses = new OwnAgentSenses(this);
 	}
 	public void reset(){
 		jumpState = ACCEPT;
@@ -25,6 +21,8 @@ public class TestAgent extends OwnAgent implements Agent{
 	public boolean[] getAction(){
 		speedProcedure();
 		jump(8);
+		System.out.println("dpy:"+senses.catchSafetyCol()[9]);
+		System.out.println("tick:"+brain.fallTickToDPy(senses.catchSafetyCol()[9]));
 /*		if(jumpState==ACCEPT && isMarioAbleToJump){
 			if(tag==1){
 				jump(1);
@@ -50,7 +48,20 @@ public class TestAgent extends OwnAgent implements Agent{
 			if(tag==0)System.out.println("##########");
 			tag = 1;
 		}
-*/
+*/		
+		if(jumpState<1){
+				int[] safety = senses.catchSafetyCol();
+				for(int i=18;i>=0;i--){
+					if (safety[i] == senses.DANGER) continue;
+					int tick = brain.fallTickToDPy(safety[i]);
+					System.out.println("try:"+tick+"/"+(i-9)+"Cell = "+brain.isAbleToMove(tick,brain.px(i-9)));
+					if (brain.isAbleToMove(tick,brain.px(i-9))){
+						hrzMove(tick,brain.px(i-9));
+						break;
+					}	
+				}
+		}
+		
 		jumpProcedure();
 		hrzProcedure();
 		totalTick ++;

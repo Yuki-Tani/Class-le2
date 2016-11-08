@@ -89,6 +89,37 @@ public class OwnAgentSenses {
 			}
 	}
 	
+	public boolean isDanger(int row,int col){
+		return catchEnemy(row,col+1);
+	}
+	
+	public static final int DANGER = -99;
+	
+	public int[] catchSafetyCol(){
+		int[] safetyCol = new int[19];
+		for(int i=0;i<=18;i++){
+			r:for(int j=ag.marioEgoRow+1;j<=18;j++){
+				switch(ag.getReceptiveFieldCellValue(j,i)){
+				case GeneralizerLevelScene.BRICK:
+				case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
+				case GeneralizerLevelScene.FLOWER_POT_OR_CANNON:
+				case GeneralizerLevelScene.LADDER:
+				case GeneralizerLevelScene.BORDER_HILL:
+					if(isDanger(j-1,i)){
+						safetyCol[i] = DANGER;
+					}else{
+						safetyCol[i] = (j-ag.marioEgoRow-1)*16
+								+(16-(int)ag.marioFloatPos[1]%16)-1;
+					}
+					break r;
+				default:	
+				}
+				safetyCol[i] = DANGER;
+			}
+		}
+		return safetyCol;
+	}
+	
 	public boolean feelLanding(){
 		return !ag.isMarioAbleToJump && ag.isMarioOnGround;
 	}
