@@ -13,7 +13,7 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 	@Override
 	public void prepare(){
 	    ag.right(true);
-	    ag.dash(true);
+	    ag.speed(true);
 	}
 	@Override
 	public void direction(){
@@ -23,7 +23,7 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 			ag.jumpState = ACCEPT;
 			
 		}else if(ag.jumpState == ACCEPT && ag.isMarioAbleToJump && ag.isMarioOnGround){
-			ag.dash(true);
+			ag.speed(true);
 			ag.jump(false);
 			
 			//enemy
@@ -58,7 +58,7 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 				}
 				for(int i=5;i<=6;i++){
 					if(sn.catchHole(ag.marioEgoRow,ag.marioEgoCol+i)[0]>4){
-						ag.dash(false);
+						ag.speed(false);
 					}
 				}
 			}

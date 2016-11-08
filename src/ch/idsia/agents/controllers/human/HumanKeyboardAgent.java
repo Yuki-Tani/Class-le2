@@ -27,14 +27,14 @@
 
 package ch.idsia.agents.controllers.human;
 
-import ch.idsia.agents.Agent;
-import ch.idsia.benchmark.mario.engine.sprites.Mario;
-import ch.idsia.benchmark.mario.environments.Environment;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import ch.idsia.agents.Agent;
+import ch.idsia.benchmark.mario.engine.sprites.Mario;
+import ch.idsia.benchmark.mario.environments.Environment;
 
 /**
  * Created by IntelliJ IDEA.
@@ -77,6 +77,7 @@ int zLevelScene = 1;
 int zLevelEnemies = 0;
 
 
+
 public HumanKeyboardAgent()
 {
     this.reset();
@@ -85,6 +86,7 @@ public HumanKeyboardAgent()
 
 public boolean[] getAction()
 {
+//	System.out.println(levelScene[10][9]);
     return Action;
 }
 

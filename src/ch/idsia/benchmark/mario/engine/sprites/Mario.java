@@ -246,9 +246,9 @@ private void savePrevState()
 }
 
 public void move()
-{
+{	
     if (GlobalOptions.isFly)
-    {
+    {	
         xa = ya = 0;
         ya = keys[KEY_DOWN] ? 10 : ya;
         ya = keys[KEY_UP] ? -10 : ya;
@@ -338,7 +338,6 @@ public void move()
 //    float Wind = 0.2f;
 //    float windAngle = 180;
 //    xa += Wind * Math.cos(windAngle * Math.PI / 180);
-
     if (keys[KEY_JUMP] || (jumpTime < 0 && !onGround && !sliding))
     {
         if (jumpTime < 0)
@@ -374,7 +373,7 @@ public void move()
     {
         jumpTime = 0;
     }
-
+    
     if (keys[KEY_LEFT] && !ducking)
     {
         if (facing == 1) sliding = false;
@@ -383,7 +382,7 @@ public void move()
     }
 
     if (keys[KEY_RIGHT] && !ducking)
-    {
+    {	
         if (facing == -1) sliding = false;
         xa += sideWaysSpeed;
         if (jumpTime >= 0) facing = 1;

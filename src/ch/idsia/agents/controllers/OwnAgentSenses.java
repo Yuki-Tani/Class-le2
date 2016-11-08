@@ -70,9 +70,25 @@ public class OwnAgentSenses {
 		hole[2] = catchObstacle(row-1,col +hole[1]+1); 
 		return hole;
 	}
+	
 	public boolean catchEnemy(int row,int col){
-		return ag.getEnemiesCellValue(row,col)!=Sprite.KIND_NONE;
+			switch(ag.getEnemiesCellValue(row,col)){
+			case Sprite.KIND_BULLET_BILL:
+			case Sprite.KIND_ENEMY_FLOWER:
+			case Sprite.KIND_GOOMBA:
+			case Sprite.KIND_GOOMBA_WINGED:
+			case Sprite.KIND_GREEN_KOOPA:
+			case Sprite.KIND_GREEN_KOOPA_WINGED:
+			case Sprite.KIND_GREEN_MUSHROOM:
+			case Sprite.KIND_RED_KOOPA:
+			case Sprite.KIND_RED_KOOPA_WINGED:
+			case Sprite.KIND_SPIKY:
+			case Sprite.KIND_SPIKY_WINGED:
+				return true;
+			default: return false;
+			}
 	}
+	
 	public boolean feelLanding(){
 		return !ag.isMarioAbleToJump && ag.isMarioOnGround;
 	}

@@ -13,39 +13,46 @@ public class OwnBasicBrain02 extends OwnAgentBrain{
 	@Override
 	public void prepare(){
 	    ag.right(true);
-	    ag.dash(true);
+	    ag.speed(true);
 	}
+	
+	private final int VIEWPOINT = +6 ;
 	@Override
 	public void direction(){
 		//JUMP
 		if(ag.jumpState == ACCEPT && ag.isMarioAbleToJump && ag.isMarioOnGround){
-			ag.dash(true);
+			ag.speed(true);
+			ag.right(true);
 			ag.jump(false);
 			
+			
 			//enemy
-			if(sn.catchEnemy(ag.marioEgoRow,ag.marioEgoCol+1)||
-					sn.catchEnemy(ag.marioEgoRow,ag.marioEgoCol+2)){
-				ag.jump(1);
-			}
+				for(int i=1;i<=VIEWPOINT;i++){
+					if(sn.catchEnemy(ag.marioEgoRow,ag.marioEgoCol+i)){
+						if(ag.rideOn(i,1)) break;
+					}
+				}
+//				System.out.println("wall:"+"("+dCxAim+","+height+") ");
+			
 			//obstacle
-			int height = 0;
-			for(int i=1;i<=3;i++){
-				height = Math.max(height,sn.catchObstacle(ag.marioEgoRow,ag.marioEgoCol+i));
+			for(int len=VIEWPOINT ;len>0;len--){
+				int dCxAim = 0;
+				int height = -1;
+				for(int i=1;i<=len;i++){
+					if(height<=sn.catchObstacle(ag.marioEgoRow,ag.marioEgoCol+i)){
+						height = sn.catchObstacle(ag.marioEgoRow,ag.marioEgoCol+i);
+						dCxAim = i;
+					}
+				}
+//				System.out.println("wall:"+"("+dCxAim+","+height+") ");
+				if(ag.rideOn(dCxAim,height)) break;
 			}
-//			System.out.println("wall:"+height+" ");
-			switch(height){
-			case 0:	break;
-			case 1: ag.jump(1);		break;
-			case 2: ag.jump(2);		break;
-			case 3: ag.jump(4);		break;
-			case 4: ag.jump(7);		break;
-			default: ag.jump(8);
-			} 
+			
 			//hole
-			int[] hole = sn.catchHole(ag.marioEgoRow+1,ag.marioEgoCol+1);
+/*			int[] hole = sn.catchHole(ag.marioEgoRow+1,ag.marioEgoCol+1);
 //			System.out.print("hole:"+hole[0]+":"+hole[1]+":"+hole[2]+" ");
 			if(hole[0]>4){
-				ag.jump(1);
+				ag.jump(5);
 			}else if(hole[1]<=0){
 			}else if(hole[1]<=3){
 				ag.jump(1);
@@ -54,12 +61,14 @@ public class OwnBasicBrain02 extends OwnAgentBrain{
 				}
 				for(int i=5;i<=6;i++){
 					if(sn.catchHole(ag.marioEgoRow,ag.marioEgoCol+i)[0]>4){
-						ag.dash(false);
+						ag.speed(false);
 					}
 				}
 			}
+*/			
 		}
-		ag.jumpProcedure();
+//		System.out.println("<"+ag.totalTick+"> "+(ag.marioFloatPos[0])+"("+(int)(ag.marioFloatPos[0]/16)+") / "
+//				+(ag.marioFloatPos[1])+"("+(int)(ag.marioFloatPos[1]/16)+")");
 //		System.out.println(ag.action[Mario.KEY_JUMP]+"/"+ag.action[Mario.KEY_SPEED]);
 	}
 }

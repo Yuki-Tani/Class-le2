@@ -37,7 +37,7 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-public static final int  	SEED 		= 60,
+public static final int  	SEED 		= 61 ,
 						  	DIFFICULTY 	= 1,
 						  	REPEAT 		= 1,
 						  	REPEAT_PLUS = 1;
@@ -55,12 +55,12 @@ public static void main(String[] args)
 
 //  marioAIOptions.setDeadEndsCount(true);		//dead_ends
 //  marioAIOptions.setHiddenBlocksCount(true);	//hidden_blocks
-  marioAIOptions.setFlatLevel(true);			//flat
+//  marioAIOptions.setFlatLevel(true);			//flat
     
 //  marioAIOptions.setCoinsCount(false);		//coins
 //  marioAIOptions.setHillStraightCount(false);	//hill
-  marioAIOptions.setBlocksCount(false);		//blocks
-  marioAIOptions.setTubesCount(false);		//tubes
+//  marioAIOptions.setBlocksCount(false);		//blocks
+//  marioAIOptions.setTubesCount(false);		//tubes
   marioAIOptions.setGapsCount(false); 		//gaps
 //  marioAIOptions.setCannonsCount(false);		//cannons
     
@@ -73,8 +73,8 @@ public static void main(String[] args)
 //  marioAIOptions.setVisualization(false);
     
     // エージェントの追加
-    final Agent agent = new TestAgent();
-    marioAIOptions.setAgent(agent);
+    final Agent agent = new OwnAgent();
+    marioAIOptions.setAgent(agent); 
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);
     basicTask.setOptionsAndReset(marioAIOptions);
