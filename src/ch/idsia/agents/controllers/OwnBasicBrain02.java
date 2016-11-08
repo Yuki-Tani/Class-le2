@@ -44,7 +44,14 @@ public class OwnBasicBrain02 extends OwnAgentBrain{
 					}
 				}
 //				System.out.println("wall:"+"("+dCxAim+","+height+") ");
-				if(ag.rideOn(dCxAim,height)) break;
+				if(ag.rideOn(dCxAim,height)){
+					if(sn.isDanger(ag.marioEgoRow+height,ag.marioEgoCol+dCxAim-1) ||
+					    sn.isDanger(ag.marioEgoRow+height,ag.marioEgoCol+dCxAim)){
+						ag.rideOn(-1,1);
+						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					}	
+					break;
+				}
 			}
 			
 			//hole

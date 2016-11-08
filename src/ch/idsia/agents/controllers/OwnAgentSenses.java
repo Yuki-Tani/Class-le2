@@ -90,7 +90,8 @@ public class OwnAgentSenses {
 	}
 	
 	public boolean isDanger(int row,int col){
-		return catchEnemy(row,col+1);
+		return catchEnemy(row-1,col) || catchEnemy(row-1,col+1)||
+										 catchEnemy(row,col+1);
 	}
 	
 	public static final int DANGER = -99;
