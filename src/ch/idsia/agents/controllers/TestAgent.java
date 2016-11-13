@@ -14,23 +14,21 @@ public class TestAgent extends OwnAgent implements Agent{
 	public void reset(){
 		jumpState = ACCEPT;
 	    action = new boolean[Environment.numberOfKeys];
-	    action[Mario.KEY_RIGHT] = true;
+	    action[Mario.KEY_RIGHT] = false;
 	    action[Mario.KEY_SPEED] = false;
 	    tag = 0;
 	}
 	public boolean[] getAction(){
 		speedProcedure();
-		jump(8);
-		System.out.println("dpy:"+senses.catchSafetyCol()[9]);
-		System.out.println("tick:"+brain.fallTickToDPy(senses.catchSafetyCol()[9]));
-/*		if(jumpState==ACCEPT && isMarioAbleToJump){
-			if(tag==1){
-				jump(1);
-				tick = 16;
-				System.out.println(actionTime);
+//		System.out.println("dpy:"+senses.catchSafetyCol()[9]);
+//		System.out.println("tick:"+brain.fallTickToDPy(senses.catchSafetyCol()[9]));
+		if(jumpState==ACCEPT && isMarioAbleToJump){
+			if(tag==0){
+				jump(8);
+				System.out.println(totalTick);
 			}
 		}
-*/		
+		
 /*		if(actionTime>=20){
 			hrzControl(tick,aim-(int)marioFloatPos[0]);
 			tick--;
@@ -49,7 +47,7 @@ public class TestAgent extends OwnAgent implements Agent{
 			tag = 1;
 		}
 */		
-		if(jumpState<1){
+/*		if(jumpState<1){
 				int[] safety = senses.catchSafetyCol();
 				for(int i=18;i>=0;i--){
 					if (safety[i] == senses.DANGER) continue;
@@ -61,7 +59,7 @@ public class TestAgent extends OwnAgent implements Agent{
 					}	
 				}
 		}
-		
+*/		
 		jumpProcedure();
 		hrzProcedure();
 		totalTick ++;

@@ -27,6 +27,8 @@
 
 package ch.idsia.agents.controllers;
 
+import java.util.LinkedList;
+
 import ch.idsia.agents.Agent;
 import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.mario.environments.Environment;
@@ -39,7 +41,8 @@ import ch.idsia.benchmark.mario.environments.Environment;
  * Time: 4:03:46 AM
  */
 public class OwnAgent extends BasicMarioAIAgent implements Agent{
-	
+
+protected LinkedList<OwnAgentBrain> brainStack;
 protected OwnAgentBrain brain;	
 protected OwnAgentSenses senses;
 
@@ -53,9 +56,10 @@ protected int totalTick;
 public OwnAgent(){this("OwnAgent");}
 public OwnAgent(String name){
     super(name);
+    brainStack = new LinkedList<OwnAgentBrain>();
     brain = new OwnBasicBrain02(this);
     senses = new OwnAgentSenses(this);
-    brain.connect(senses);
+    setBrain(brain);
  
     setFixedNums();    
     reset();
@@ -71,6 +75,7 @@ public void reset(){
 }
 
 public boolean[] getAction(){
+	brainProcedure();
 	speedProcedure();
 	brain.direction();
 	totalTick ++;
@@ -80,6 +85,20 @@ public boolean[] getAction(){
 }
 
 //procedure methods
+
+
+public void setBrain(OwnAgentBrain brain){
+	brain.connect(senses);
+	brainStack.addFirst(brain);
+}
+public void removeBrain(){
+	if(brainStack.size()==1) return;
+	brainStack.pollFirst();
+}
+protected void brainProcedure(){
+	brain = brainStack.peekFirst();
+}
+
 protected float speedX;
 protected float speedY;
 protected float stockPx;
@@ -142,17 +161,19 @@ protected boolean rideOn(int dCx,int dCy){
 	hrzMove(tick,dPx);
 	return true;
 }
+protected void jumpOn(int dCx,int dCy){
+}
 
 protected void jump(int jumpSize){
 	if(isMarioAbleToJump){
 		jumpState = jumpSize;
-		System.out.println("jump:"+jumpSize);
+//		System.out.println("jump:"+jumpSize);
 	}	
 }
 protected void hrzMove(int tickLeft, int dPx){
 	this.tickLeft = tickLeft;
 	this.aimPhx = (int)marioFloatPos[0]+dPx;
-	System.out.println("hrzMove:"+tickLeft+"tick_"+dPx);
+//	System.out.println("hrzMove:"+tickLeft+"tick_"+dPx);
 }
 
 protected void hrzControl(int tick,int dPx){

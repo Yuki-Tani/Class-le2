@@ -3,19 +3,19 @@ package ch.idsia.agents.controllers;
 public abstract class OwnAgentBrain {
 	protected OwnAgent ag;
 	protected OwnAgentSenses sn;
-	
-	
-	
+		
 	public OwnAgentBrain(OwnAgent agent){
 		ag = agent;
 	}
 	public void connect(OwnAgentSenses senses){
 		sn = senses;
 	}
+	
+//	abstract methods
 	public abstract void prepare();
 	public abstract void direction();
 	
-	// leftSide
+// common methods
 	protected int px(int cell){
 		if(cell>0){
 			return cell*16-(int)ag.marioFloatPos[0]%16;
@@ -27,11 +27,13 @@ public abstract class OwnAgentBrain {
 	}
 	
 	private int WIDTH_ERROR = 5;
+	
 	protected boolean isAbleToMove(int tick,int dPx){
 		float dPxMax = ag.speedX*0.89f*OwnAgent.X_EFFECT[tick] +OwnAgent.X_12_ADDITION[tick];
 		float dPxMinusMax = ag.speedX*0.89f*OwnAgent.X_EFFECT[tick] -OwnAgent.X_12_ADDITION[tick];
 		return dPxMinusMax-WIDTH_ERROR<=dPx && dPx<=dPxMax+WIDTH_ERROR;
 	}
+	
 	protected int fallTickToDPy(int dPy){
 		if (dPy<0) return -1;
 		float ay = ag.speedY;
@@ -43,6 +45,7 @@ public abstract class OwnAgentBrain {
 		}
 		return tick;
 	}
+	
 	protected int jumpTickToMaxCell(int jumpSize){
 		switch(jumpSize){
 		case 1: return 6; //1
@@ -69,4 +72,14 @@ public abstract class OwnAgentBrain {
 		}
 		return -1;
 	}*/
+	private int jump8TickToCellOf(int dCy){
+		switch(dCy){
+		case 0:	return 16;
+		case 1: return 15;
+		case 2: return 14;
+		case 3: return 12;
+		case 4: return 10;
+		}
+		return -1;
+	}
 }

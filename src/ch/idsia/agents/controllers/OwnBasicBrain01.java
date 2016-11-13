@@ -34,7 +34,7 @@ public class OwnBasicBrain01 extends OwnAgentBrain{
 			//obstacle
 			int height = 0;
 			for(int i=1;i<=3;i++){
-				height = Math.max(height,sn.catchObstacle(ag.marioEgoRow,ag.marioEgoCol+i));
+				height = Math.max(height,sn.catchWall(ag.marioEgoRow,ag.marioEgoCol+i));
 			}
 //			System.out.println("wall:"+height+" ");
 			switch(height){

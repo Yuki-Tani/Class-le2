@@ -37,8 +37,8 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-public static final int  	SEED 		= 61 ,
-						  	DIFFICULTY 	= 1,
+public static final int  	SEED 		= 60 ,
+						  	DIFFICULTY 	= 4,
 						  	REPEAT 		= 1,
 						  	REPEAT_PLUS = 1;
 
@@ -61,7 +61,7 @@ public static void main(String[] args)
 //  marioAIOptions.setHillStraightCount(false);	//hill
 //  marioAIOptions.setBlocksCount(false);		//blocks
 //  marioAIOptions.setTubesCount(false);		//tubes
-  marioAIOptions.setGapsCount(false); 		//gaps
+//  marioAIOptions.setGapsCount(false); 		//gaps
 //  marioAIOptions.setCannonsCount(false);		//cannons
     
     //敵の有無  
