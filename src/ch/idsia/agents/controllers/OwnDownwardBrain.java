@@ -1,6 +1,8 @@
 package ch.idsia.agents.controllers;
 
 public class OwnDownwardBrain extends OwnAgentBrain{
+	
+	
 	public OwnDownwardBrain(OwnAgent agent){
 		super(agent);
 	}

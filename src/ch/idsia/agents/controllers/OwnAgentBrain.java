@@ -72,7 +72,7 @@ public abstract class OwnAgentBrain {
 		}
 		return -1;
 	}*/
-	private int jump8TickToCellOf(int dCy){
+	protected int jump8TickToCellOf(int dCy){
 		switch(dCy){
 		case 0:	return 16;
 		case 1: return 15;

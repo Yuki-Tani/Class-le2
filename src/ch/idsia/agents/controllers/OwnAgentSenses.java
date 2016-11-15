@@ -36,19 +36,6 @@ public class OwnAgentSenses {
 		return (ag.marioMode==SMALL)? height-1 : height-2;
 	}
 	
-	public boolean catchObstacleOn(int row,int col){
-		switch(ag.getReceptiveFieldCellValue(row,col)){
-		case GeneralizerLevelScene.BRICK:
-		case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
-		case GeneralizerLevelScene.FLOWER_POT_OR_CANNON:
-		case GeneralizerLevelScene.LADDER:
-		case GeneralizerLevelScene.BORDER_HILL:
-			return true;
-		default :
-			return false;
-		}	
-	}
-	
 	// return [depth,length,height]
 	public int[] catchHole(int row,int col){
 		int MAX_DEPTH = 6;
@@ -112,8 +99,8 @@ public class OwnAgentSenses {
 		for(int col=0;col<=18;col++){
 			r:for(int j=1;j<=9;j++){
 				int row = j+ag.marioEgoRow;
-				if(catchObstacleOn(row,col) || 
-						(catchEnemy(row,col) && catchObstacleOn(row+1,col))){
+				if(catchStand(row,col) || 
+						(catchEnemy(row,col) && catchStand(row+1,col))){
 					if(isDangerOn(row-1,col)){
 						safetyCol[col] = DANGER;
 					}else{
@@ -128,6 +115,19 @@ public class OwnAgentSenses {
 		return safetyCol;
 	}
 	
+/*	public boolean catchObstacleOn(int row,int col){
+		switch(ag.getReceptiveFieldCellValue(row,col)){
+		case GeneralizerLevelScene.BRICK:
+		case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
+		case GeneralizerLevelScene.FLOWER_POT_OR_CANNON:
+		case GeneralizerLevelScene.LADDER:
+		case GeneralizerLevelScene.BORDER_HILL:
+			return true;
+		default :
+			return false;
+		}	
+	}
+*/	
 	public boolean catchStand(int row,int col){
 		switch(ag.getReceptiveFieldCellValue(row,col)){
 		case GeneralizerLevelScene.BRICK:
