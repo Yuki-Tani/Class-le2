@@ -89,6 +89,7 @@ public boolean[] getAction(){
 
 public void setBrain(OwnAgentBrain brain){
 	brain.connect(senses);
+	brain.prepare();
 	brainStack.addFirst(brain);
 }
 public void removeBrain(){

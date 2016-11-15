@@ -23,7 +23,7 @@ public class OwnAStarBrain extends OwnAgentBrain{
 	public static void writeData(){
 		for(int col=0;col<=X_MAX;col++){
 			for(int row=Y_MAX;row>=0;row--){
-				System.out.print(map[row][col].cell+"("+map[row][col].valid+") ");
+				System.out.print(map[row][col].cell+" ");
 			}
 			System.out.println();
 		}
@@ -62,23 +62,20 @@ public class OwnAStarBrain extends OwnAgentBrain{
 			if(now == goal) break;
 			else now.close();
 			// 隣接操作
-			
-			
+			for(int row=-4;now.cy+row<=15;row++){
+				for(int col=5;col>=-5;col--){
+					
+				}
+			}
 		}
 		return route;
 		
 	}
 	
-/*	public boolean canGo(OwnNode now,OwnNode aim){
-		if(now.cy<aim.cy){
-			
-		}else if(now.cy==aim.cy){
-			
-		}else{
-			
-		}
+	public boolean canGo(OwnNode now,OwnNode aim){
+		return aim.cy-now.cy>=-4 && Math.abs(aim.cx-now.cx)<=5;
 	}
-*/	
+
 	public void memoryMap(){
 		int x = (int)ag.marioFloatPos[0]/16;
 		int y = (int)ag.marioFloatPos[1]/16;

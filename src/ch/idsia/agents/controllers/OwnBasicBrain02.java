@@ -53,9 +53,21 @@ public class OwnBasicBrain02 extends OwnAgentBrain{
 					break;
 				}
 			}
-			if(height>4){
+			
+			int wall1 = sn.catchWall(ag.marioEgoRow,ag.marioEgoCol+1);
+			System.out.println("wall1: "+wall1);
+			if(wall1>4){
 				ag.setBrain(new OwnUpwardBrain(ag));
 				return;
+			}else{
+				for(int i=wall1-1;i>0;i--){
+					if(!sn.catchBlank(ag.marioEgoRow-i,ag.marioEgoCol)){
+						System.out.println("oh");
+						OwnUpwardBrain newBrain = new OwnUpwardBrain(ag);
+						ag.setBrain(newBrain);
+						newBrain.setBan((int)ag.marioFloatPos[1]/16,(int)ag.marioFloatPos[0]/16);
+					}
+				}
 			}
 			//hole
 			int[] hole = sn.catchHole(ag.marioEgoRow+1,ag.marioEgoCol+1);

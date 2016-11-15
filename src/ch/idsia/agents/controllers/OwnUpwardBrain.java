@@ -1,10 +1,12 @@
 package ch.idsia.agents.controllers;
 
-import ch.idsia.benchmark.mario.engine.GeneralizerLevelScene;
+import java.awt.Point;
+import java.util.HashSet;
 
 public class OwnUpwardBrain extends OwnAgentBrain{
 	private static final int NOMAL = 0,
-							 RUN_UP = 1;
+							 RUN_UP = 1,
+							 GO_OUT = 2;
 	
 	private int state;
 
@@ -15,30 +17,50 @@ public class OwnUpwardBrain extends OwnAgentBrain{
 	@Override
 	public void prepare() {
 		state = NOMAL;
+		banCell = new HashSet<Point>();
 	}
 
 	@Override
 	public void direction() {
 //		System.out.println("<"+ag.totalTick+"> "+(ag.marioFloatPos[0])+"("+(int)(ag.marioFloatPos[0]/16)+") / "
 //				+(ag.marioFloatPos[1])+"("+(int)(ag.marioFloatPos[1]/16)+")");
+		if(isBan((int)ag.marioFloatPos[1]/16,(int)ag.marioFloatPos[0]/16)){
+			state = GO_OUT; 
+			aimPx = (-1 + ag.distancePassedCells)*16+8;
+		}else{
+			state = NOMAL;
+		}
+		System.out.println(state);
 		switch(state){
 		case NOMAL: nomalRoutine();	break;
 //		case RUN_UP: runUpRoutine(); break;
+		case GO_OUT: goOutRoutine(); break;
 		}	
 	}
 	
+	public HashSet<Point> banCell;
+	
+	public void setBan(int cy,int cx){
+		banCell.add(new Point(cx,cy));
+	}
+	public boolean isBan(int cy,int cx){
+		return banCell.contains(new Point(cx,cy));
+	}
+	
+// routine methods	
 	private int aimPx;
 	
 	private void nomalRoutine(){
-		System.out.println("aimX:"+aimPx/16);
 		if(ag.jumpState == OwnAgent.ACCEPT && ag.isMarioAbleToJump && ag.isMarioOnGround){
-			for(int row=ag.marioEgoRow-4;row<ag.marioEgoRow;row++){
-				for(int col=ag.marioEgoCol+5;col>=ag.marioEgoCol-5;col--){
-					if(sn.catchBlank(row, col)&&sn.catchStand(row+1, col)){
-						aimPx = (col-ag.marioEgoCol + ag.distancePassedCells)*16+8;
-						ag.jump(8);  
-						ag.hrzControl(1,aimPx-ag.distancePassedPhys);
-						return;
+			for(int row=-4;row<0;row++){
+				for(int col=5;col>=-5;col--){
+					if(sn.catchBlank(ag.marioEgoRow+row,ag.marioEgoCol+col) 
+					    && sn.catchStand(ag.marioEgoRow+row+1,ag.marioEgoCol+col)
+						&& !isBan((int)ag.marioFloatPos[1]/16+row,(int)ag.marioFloatPos[0]/16+col)){
+							aimPx = (col + ag.distancePassedCells)*16+8;
+							ag.jump(8);  
+							ag.hrzControl(1,aimPx-ag.distancePassedPhys);
+							return;
 					}
 				}
 			}
@@ -46,10 +68,14 @@ public class OwnUpwardBrain extends OwnAgentBrain{
 			ag.removeBrain();
 			ag.setBrain(new OwnDownwardBrain(ag));
 		}else{
-			System.out.println("//");
 			ag.hrzControl(1,aimPx-ag.distancePassedPhys);
 		}
 	}
+	
+	private void goOutRoutine(){
+		ag.hrzControl(1,aimPx-ag.distancePassedPhys);
+	}
+	
 	/*
 	private static final int BACK_TICK = 10;
 	private int phase = 0;
