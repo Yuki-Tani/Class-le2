@@ -47,7 +47,7 @@ public class HumanKeyboardAgent extends KeyAdapter implements Agent
 {
 List<boolean[]> history = new ArrayList<boolean[]>();
 private boolean[] Action = null;
-private String Name = "HumanKeyboardAgent";
+private String Name = "OwnTestAgent";
 
 /*final*/
 protected byte[][] levelScene;

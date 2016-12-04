@@ -30,6 +30,7 @@ package ch.idsia.tools;
 import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.tasks.MarioSystemOfValues;
 import ch.idsia.benchmark.tasks.SystemOfValues;
+import ch.idsia.scenarios.Main;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -208,6 +209,8 @@ public String toString()
 //        }
     }
 
+    Main.counter(marioStatus == Mario.STATUS_WIN);
+    
     return "\n[MarioAI] ~ Evaluation Results for Task: " + taskName +
             "\n        Evaluation lasted : " + Long.toString(evaluationLasted) + " ms" +
             "\n         Weighted Fitness : " + df.format(computeWeightedFitness()) +

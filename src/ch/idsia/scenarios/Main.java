@@ -37,15 +37,17 @@ import ch.idsia.tools.MarioAIOptions;
  */
 public final class Main
 {
-public static final int  	SEED 		= 60 ,
-						  	DIFFICULTY 	= 4,
+public static final int  	SEED 		= 0,
+						  	DIFFICULTY 	= 2,
 						  	REPEAT 		= 1,
 						  	REPEAT_PLUS = 1;
+public static int goCount = 0,
+				  winCount = 0;
 
 public static void main(String[] args)
 {
     MarioAIOptions marioAIOptions;
-    
+    goCount = 0; winCount = 0;
     for(int i=0;i<REPEAT;i++){
     marioAIOptions = new MarioAIOptions(args);
 
@@ -53,34 +55,42 @@ public static void main(String[] args)
     marioAIOptions.setLevelRandSeed(SEED+i*REPEAT_PLUS);
     marioAIOptions.setLevelDifficulty(DIFFICULTY);
 
-//  marioAIOptions.setDeadEndsCount(true);		//dead_ends
+  marioAIOptions.setDeadEndsCount(true);		//dead_ends
 //  marioAIOptions.setHiddenBlocksCount(true);	//hidden_blocks
 //  marioAIOptions.setFlatLevel(true);			//flat
     
 //  marioAIOptions.setCoinsCount(false);		//coins
 //  marioAIOptions.setHillStraightCount(false);	//hill
 //  marioAIOptions.setBlocksCount(false);		//blocks
-//  marioAIOptions.setTubesCount(false);		//tubes
+  marioAIOptions.setTubesCount(false);		//tubes
 //  marioAIOptions.setGapsCount(false); 		//gaps
 //  marioAIOptions.setCannonsCount(false);		//cannons
     
     //敵の有無  
-  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
-//  marioAIOptions.setEnemies("g"); 	//クリボー
-//  marioAIOptions.setEnemies("ggk");
+//  marioAIOptions.setEnemies("off");	//キラーとパックンのみ
+  marioAIOptions.setEnemies("g"); 	//クリボー
+//  marioAIOptions.setEnemies("g");
 
   //表示
 //  marioAIOptions.setVisualization(false);
     
     // エージェントの追加
-    final Agent agent = new TestAgent();
+    final OwnAgent agent = new OwnAgent();
     marioAIOptions.setAgent(agent); 
     
     final BasicTask basicTask = new BasicTask(marioAIOptions);
     basicTask.setOptionsAndReset(marioAIOptions);
     basicTask.doEpisodes(1,true,1);
     }
+    System.out.println();
+    System.out.println("Repeat: "+goCount);
+    System.out.println("Win   : "+winCount);
     System.exit(0);
+}
+
+public static void counter(boolean isWin){
+	if(isWin) winCount ++;
+	goCount ++;
 }
 
 }

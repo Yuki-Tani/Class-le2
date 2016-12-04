@@ -87,7 +87,8 @@ public class OwnAgentSenses {
 	}
 	
 	public boolean isDangerFromLeft(int row, int col){
-		if(catchEnemy(row,col)) return true;
+		if(catchEnemy(row,col) || catchEnemy(row-1,col)
+		  || catchEnemy(row-2,col)	) return true;
 		return isDangerStay(row,col);
 	}
 	
@@ -100,7 +101,7 @@ public class OwnAgentSenses {
 			r:for(int j=1;j<=9;j++){
 				int row = j+ag.marioEgoRow;
 				if(catchStand(row,col) || 
-						(catchEnemy(row,col) && catchStand(row+1,col))){
+						(catchStepableEnemy(row,col) && catchStand(row+1,col))){
 					if(isDangerOn(row-1,col)){
 						safetyCol[col] = DANGER;
 					}else{
@@ -114,20 +115,7 @@ public class OwnAgentSenses {
 		}
 		return safetyCol;
 	}
-	
-/*	public boolean catchObstacleOn(int row,int col){
-		switch(ag.getReceptiveFieldCellValue(row,col)){
-		case GeneralizerLevelScene.BRICK:
-		case GeneralizerLevelScene.BORDER_CANNOT_PASS_THROUGH:
-		case GeneralizerLevelScene.FLOWER_POT_OR_CANNON:
-		case GeneralizerLevelScene.LADDER:
-		case GeneralizerLevelScene.BORDER_HILL:
-			return true;
-		default :
-			return false;
-		}	
-	}
-*/	
+
 	public boolean catchStand(int row,int col){
 		switch(ag.getReceptiveFieldCellValue(row,col)){
 		case GeneralizerLevelScene.BRICK:

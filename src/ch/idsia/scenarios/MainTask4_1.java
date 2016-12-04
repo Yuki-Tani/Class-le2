@@ -28,7 +28,6 @@
 package ch.idsia.scenarios;
 
 import ch.idsia.agents.Agent;
-import ch.idsia.agents.controllers.OwnAStarBrain;
 import ch.idsia.agents.controllers.OwnAgent;
 import ch.idsia.benchmark.tasks.BasicTask;
 import ch.idsia.tools.MarioAIOptions;
@@ -68,6 +67,7 @@ public static void main(String[] args)
     basicTask.setOptionsAndReset(marioAIOptions);
     basicTask.doEpisodes(1,true,1);
     System.exit(0);
+
 }
 
 }

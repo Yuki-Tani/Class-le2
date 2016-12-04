@@ -162,8 +162,6 @@ protected boolean rideOn(int dCx,int dCy){
 	hrzMove(tick,dPx);
 	return true;
 }
-protected void jumpOn(int dCx,int dCy){
-}
 
 protected void jump(int jumpSize){
 	if(isMarioAbleToJump){
@@ -191,29 +189,7 @@ protected void hrzControl(int tick,int dPx){
 		if(dPx<x0All-block*2) speed(true);
 	}
 }
-/*protected void move(int speed){
-	if(speed>0){
-		if(this.speed>speed){
-			right(false); left(false); speed(false);
-		}else{
-			right(true); left(false); speed(true);
-		}
-	}else if(speed<0){	
-		if(this.speed<speed){
-			right(false); left(false); speed(false);
-		}else{
-			right(false); left(true); speed(true);
-		}
-	}else if(speed == 0){
-		if(this.speed>speed){
-			right(false); left(true); speed(true);
-		}else if(this.speed<speed){
-			right(true); left(false); speed(true);
-		}else{
-			right(false); left(false); speed(false);
-		}
-	}
-}*/
+
 protected void jump(boolean push){
 	action[Mario.KEY_JUMP] = push;
 }

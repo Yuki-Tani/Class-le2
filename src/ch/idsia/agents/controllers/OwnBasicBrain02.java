@@ -1,8 +1,5 @@
 package ch.idsia.agents.controllers;
 
-import ch.idsia.benchmark.mario.engine.sprites.Mario;
-
-
 public class OwnBasicBrain02 extends OwnAgentBrain{	
 	
 	public OwnBasicBrain02(OwnAgent agent){
@@ -16,6 +13,9 @@ public class OwnBasicBrain02 extends OwnAgentBrain{
 	}
 
 	private final int VIEWPOINT = +6 ;
+	
+	private int sameCellX=0;
+	private int sameCellCount = 0;
 	
 	@Override
 	public void direction(){
@@ -93,9 +93,18 @@ public class OwnBasicBrain02 extends OwnAgentBrain{
 			}	
 			
 		}
-		
+		sameCellProcedure();
 	}
 	
+	private void sameCellProcedure(){
+		if((int)ag.marioFloatPos[0]/16==sameCellX) sameCellCount ++;
+		else sameCellCount = 0;
+		if(sameCellCount > 30){
+			ag.hrzMove(1,px(-16));
+			ag.jumpState=0;
+		}
+		sameCellX = (int)ag.marioFloatPos[0]/16;
+	}
 	private void holeDangerBrainChange(){
 		OwnUpwardBrain newBrain = new OwnUpwardBrain(ag);
 		ag.setBrain(newBrain);
