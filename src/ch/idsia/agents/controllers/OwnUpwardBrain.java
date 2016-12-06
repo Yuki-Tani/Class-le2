@@ -9,6 +9,7 @@ public class OwnUpwardBrain extends OwnAgentBrain{
 							 RUN_UP = 1,
 							 GO_OUT = 2;
 	
+	private int startCellX=0;
 	private int state;
 	public boolean fromHoleDanger = false;
 
@@ -20,12 +21,19 @@ public class OwnUpwardBrain extends OwnAgentBrain{
 	public void prepare() {
 		state = NOMAL;
 		challengedCell = new HashMap<Point,Integer>();
+		startCellX = ag.distancePassedCells;
 	}
 
 	@Override
 	public void direction() {
-//		System.out.println("<"+ag.totalTick+"> "+(ag.marioFloatPos[0])+"("+(int)(ag.marioFloatPos[0]/16)+") / "
-//				+(ag.marioFloatPos[1])+"("+(int)(ag.marioFloatPos[1]/16)+")");
+		if(ag.distancePassedCells>startCellX){
+			ag.hrzControl(1,0);
+			ag.removeBrain();
+			if(!fromHoleDanger){
+				OwnDownwardBrain newBrain = new OwnDownwardBrain(ag);
+				ag.setBrain(newBrain);
+			}
+		}
 		if(isBan((int)ag.marioFloatPos[1]/16,(int)ag.marioFloatPos[0]/16)){
 			state = GO_OUT; 
 			aimPx = (-1 + ag.distancePassedCells)*16+8;
@@ -103,6 +111,7 @@ public class OwnUpwardBrain extends OwnAgentBrain{
 	}
 	
 	private void goOutRoutine(){
+		ag.jump(1);
 		ag.hrzControl(1,aimPx-ag.distancePassedPhys);
 	}
 	

@@ -56,16 +56,17 @@ protected int totalTick;
 public OwnAgent(){this("OwnAgent");}
 public OwnAgent(String name){
     super(name);
-    brainStack = new LinkedList<OwnAgentBrain>();
-    brain = new OwnBasicBrain02(this);
-    senses = new OwnAgentSenses(this);
-    setBrain(brain);
- 
     setFixedNums();    
     reset();
 }
 
 public void reset(){
+	
+	brainStack = new LinkedList<OwnAgentBrain>();
+    brain = new OwnBasicBrain02(this);
+    senses = new OwnAgentSenses(this);
+    setBrain(brain);
+    
 	action = new boolean[Environment.numberOfKeys];
 	totalTick = 0;
 	jumpState = ACCEPT;

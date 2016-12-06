@@ -39,7 +39,7 @@ public final class Main
 {
 public static final int  	SEED 		= 0,
 						  	DIFFICULTY 	= 2,
-						  	REPEAT 		= 1,
+						  	REPEAT 		= 200,
 						  	REPEAT_PLUS = 1;
 public static int goCount = 0,
 				  winCount = 0;
@@ -71,8 +71,8 @@ public static void main(String[] args)
   marioAIOptions.setEnemies("g"); 	//クリボー
 //  marioAIOptions.setEnemies("g");
 
-  //表示
-//  marioAIOptions.setVisualization(false);
+  //非表示
+  marioAIOptions.setVisualization(false);
     
     // エージェントの追加
     final OwnAgent agent = new OwnAgent();
